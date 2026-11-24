@@ -22,7 +22,7 @@ Next.js 15, React 19, TypeScript, Tailwind CSS, Supabase (Postgres/Auth/Storage)
    - `supabase/schema.sql`
    - `supabase/seed.sql`
    - `supabase/production_hardening.sql`
-   - `supabase/security_guards.sql`\n   - `supabase/admin_billing.sql`\n   - `supabase/seller_billing.sql`
+   - `supabase/security_guards.sql`\n   - `supabase/admin_billing.sql`\n   - `supabase/seller_billing.sql`\n   - `supabase/admin_finance_extensions.sql`
 3. Copy `.env.example` to `.env.local` and set the Supabase project URL and anon key.
 4. Run `npm install`.
 5. Run `npm run dev`.
