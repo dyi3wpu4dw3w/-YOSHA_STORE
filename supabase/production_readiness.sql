@@ -4,7 +4,10 @@
 -- The UI sorts subscriptions by created_at; the original core schema omitted it.
 alter table public.seller_subscriptions
   add column if not exists created_at timestamptz not null default now();
+alter table public.seller_plans
+  add column if not exists created_at timestamptz not null default now();
 
+create index if not exists seller_plans_created_idx on public.seller_plans(created_at desc);
 create index if not exists seller_subscriptions_store_created_idx
   on public.seller_subscriptions(store_id, created_at desc);
 create index if not exists invoices_store_created_idx
