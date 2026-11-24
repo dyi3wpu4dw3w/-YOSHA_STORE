@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Supabase database types are not generated yet; query rows are runtime-validated by RLS and database constraints. */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Supabase Database types are not generated yet; replace dynamic query row types after generating the schema types. */
 "use client";
 import Link from "next/link";import {useCallback,useEffect,useState} from "react";import {createClient} from "@/lib/supabase/client";import {LayoutDashboard,Store,ReceiptText,Wallet,Percent,Users,RefreshCw,CheckCircle2,XCircle,ShieldAlert} from "lucide-react";
 type Row=Record<string,any>;
