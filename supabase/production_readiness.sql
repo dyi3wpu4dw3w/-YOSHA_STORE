@@ -50,13 +50,13 @@ create policy "products seller manage" on public.products
 create or replace function public.seller_can_read_order(p_order_id uuid)
 returns boolean
 language sql stable security definer set search_path = public
-as $
+as $$
   select exists (
     select 1 from public.order_items oi
     join public.stores st on st.id = oi.store_id
     where oi.order_id = p_order_id and st.owner_id = auth.uid()
   );
-$;
+$$;
 revoke all on function public.seller_can_read_order(uuid) from public;
 grant execute on function public.seller_can_read_order(uuid) to authenticated;
 
