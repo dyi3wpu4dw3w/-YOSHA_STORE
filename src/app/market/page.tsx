@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Supabase database types are not generated yet; query rows are runtime-validated by RLS and database constraints. */
 "use client";
 import Link from "next/link";import {useEffect,useState} from "react";import {Search,ArrowRight,ShoppingCart} from "lucide-react";import {createClient} from "@/lib/supabase/client";
 type Product={id:string;name:string;category_id:string|null;price:number;currency:string;image_urls:string[];stock:number;description:string|null};
