@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Supabase database types are not generated yet; query rows are runtime-validated by RLS and database constraints. */
 "use client";
 import Link from "next/link";import {useCallback,useEffect,useState} from "react";import {createClient} from "@/lib/supabase/client";import {RefreshCw,ReceiptText,Store,Package,Wallet,Percent} from "lucide-react";
 type R=Record<string,any>;const fmt=(v:any,c="SDG")=>Number(v||0).toLocaleString("en-US")+" "+c;
