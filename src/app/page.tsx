@@ -9,7 +9,8 @@ const demos=[["سماعات لاسلكية","إلكترونيات","48,000"],["�
 export default function Home(){
   const [q,setQ]=useState("");
   const [menu,setMenu]=useState(false);
-  const [entered,setEntered]=useState(false);\n  const [delivery,setDelivery]=useState(false);
+  const [entered,setEntered]=useState(false);
+  const [delivery,setDelivery]=useState(false);
 
   return <>
     {!entered && <section className={`cinematic-intro ${delivery ? "delivery-mode" : ""}`} aria-label="مرحباً بك في يوشا">
