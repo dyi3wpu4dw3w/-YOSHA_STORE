@@ -11,22 +11,24 @@ type Product = {
   slug: string; category_id: string | null;
 };
 type Store = { id: string; name: string; status: string };
+type Category = { id: string; name: string };
+type DbClient = NonNullable<ReturnType<typeof createClient>>;
 const empty = { name: "", description: "", price: "", stock: "1", image: "", active: false, category_id: "" };
 const slugify = (value: string) => value.trim().toLowerCase().normalize("NFKD")
   .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export default function SellerProducts() {
-  const [client, setClient] = useState<any>(null);
+  const [client, setClient] = useState<DbClient | null>(null);
   const [store, setStore] = useState<Store | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [form, setForm] = useState(empty);
   const [editing, setEditing] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
 
-  const load = useCallback(async (db: any, ownerId: string) => {
+  const load = useCallback(async (db: DbClient, ownerId: string) => {
     const { data: stores, error: storeError } = await db.from("stores")
       .select("id,name,status").eq("owner_id", ownerId).order("created_at", { ascending: false }).limit(1);
     if (storeError) throw storeError;
@@ -39,7 +41,7 @@ export default function SellerProducts() {
     ]);
     if (catError) throw catError;
     if (productError) throw productError;
-    setCategories(cats || []);
+    setCategories((cats || []) as Category[]);
     setProducts(rows || []);
   }, []);
 
@@ -47,10 +49,10 @@ export default function SellerProducts() {
     const db = createClient();
     setClient(db);
     if (!db) { setMessage("إعدادات Supabase غير مكتملة."); setLoading(false); return; }
-    db.auth.getUser().then(async ({ data: { user } }: any) => {
+    db.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) { window.location.href = "/auth"; return; }
       try { await load(db, user.id); }
-      catch (e: any) { setMessage(e?.message || "تعذر تحميل المنتجات"); }
+      catch (e: unknown) { setMessage(e instanceof Error ? e.message : "تعذر تحميل المنتجات"); }
       finally { setLoading(false); }
     });
   }, [load]);
@@ -84,7 +86,7 @@ export default function SellerProducts() {
       reset();
       const { data: { user } } = await client.auth.getUser();
       if (user) await load(client, user.id);
-    } catch (e: any) { setMessage(e?.message || "تعذر حفظ المنتج."); }
+    } catch (e: unknown) { setMessage(e instanceof Error ? e.message : "تعذر حفظ المنتج."); }
     finally { setBusy(false); }
   }
   async function remove(product: Product) {
@@ -96,7 +98,7 @@ export default function SellerProducts() {
       setProducts(rows => rows.filter(row => row.id !== product.id));
       if (editing === product.id) reset();
       setMessage("تم حذف المنتج.");
-    } catch (e: any) { setMessage(e?.message || "تعذر حذف المنتج."); }
+    } catch (e: unknown) { setMessage(e instanceof Error ? e.message : "تعذر حذف المنتج."); }
     finally { setBusy(false); }
   }
 
