@@ -75,7 +75,7 @@ export default function SellerProducts() {
     }
     setBusy(true);
     try {
-      const payload = { store_id: store.id, name: form.name.trim(), slug: slugify(form.name) || "product",
+      const payload = { store_id: store.id, name: form.name.trim(), slug: slugify(form.name) || products.find(product => product.id === editing)?.slug || `product-${crypto.randomUUID().slice(0, 8)}`,
         description: form.description.trim() || null, price, stock, currency: "SDG",
         image_urls: form.image.trim() ? [form.image.trim()] : [],
         category_id: form.category_id || null, active: form.active };
