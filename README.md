@@ -39,7 +39,7 @@ Create a Node web service from this repository. Build command: `npm install && n
 - Create the first platform administrator by promoting the intended profile in the Supabase SQL editor after that user signs up. Never expose service-role credentials in the browser.
 - Add approved merchant integrations and signed server-side webhooks for Bankak, MyCashi, Fawry or bank transfers. These methods currently create a pending-review payment record; they are not live gateway integrations.
 - Configure payment-proof upload/storage, shipping zones and delivery partners, notification delivery, refunds and dispute workflows.
-- Finish and test seller catalog/order management and the admin operational screens.
+- Finish seller order actions, customer order history, and remaining admin operational workflows; product CRUD is now implemented.
 - Add legal terms, privacy policy, tax/compliance rules, monitoring, backups and production security review.
 - Run `npm run lint` and `npm run build` before deployment.
 
