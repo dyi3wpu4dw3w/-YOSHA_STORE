@@ -95,3 +95,54 @@ button,input{font:inherit}
 @media(max-width:850px){.grid-products{grid-template-columns:repeat(2,minmax(0,1fr))}.desktop-nav{display:none}.menu-button{display:inline-flex}.hero{grid-template-columns:1fr!important}.market-showcase{min-height:290px}}
 @media(max-width:520px){.container{width:min(100% - 24px,1180px)}.grid-products{gap:10px}.hero{border-radius:22px}.site-header{padding:16px 0}.site-logo{font-size:24px}.header-actions{gap:7px}.header-actions .btn-outline{padding:10px 12px;font-size:12px}.category-grid{grid-template-columns:repeat(2,1fr)}.category-card{padding:15px 12px;font-size:13px}.products-heading{align-items:flex-start;flex-direction:column}.search-box{width:100%}.search-box input{width:100%}.product-visual{height:135px}.intro-kicker{letter-spacing:3px;font-size:8px}.intro-wordmark{letter-spacing:-3px}.intro-orb{margin-bottom:24px}.intro-enter{padding:14px 22px}.intro-footnote{letter-spacing:2px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+
+/* Animated 3D-style shoppers and YOSHA delivery reveal */
+.shopping-scene{height:180px;width:min(440px,88vw);position:relative;margin:2px auto 15px;perspective:800px;transform-style:preserve-3d}
+.scene-floor{position:absolute;bottom:10px;left:7%;width:86%;height:42px;border-radius:50%;background:radial-gradient(ellipse,#4bd27d45,transparent 70%);transform:rotateX(62deg);filter:blur(5px)}
+.shopper{position:absolute;bottom:22px;width:72px;height:145px;transform-style:preserve-3d;filter:drop-shadow(0 12px 8px #0005);animation:shopperBob 3.2s ease-in-out infinite}
+.shopper-one{left:13%;animation-delay:-.4s;transform:scale(.9) rotateY(-9deg)}
+.shopper-two{left:calc(50% - 36px);bottom:29px;animation-delay:-1.6s;transform:scale(1.08) rotateY(5deg)}
+.shopper-three{right:12%;animation-delay:-.9s;transform:scale(.86) rotateY(10deg)}
+.shopper-head{position:absolute;top:3px;left:23px;width:31px;height:36px;border-radius:45% 45% 48% 48%;background:linear-gradient(115deg,#f6c99e,#b9784e);box-shadow:inset -5px -2px 0 #8f573e55;z-index:4}
+.shopper-hair{position:absolute;top:0;left:21px;width:34px;height:16px;border-radius:60% 60% 20% 20%;background:linear-gradient(120deg,#30251e,#090b0a);z-index:5}
+.shopper-body{position:absolute;top:36px;left:13px;width:51px;height:59px;border-radius:17px 17px 10px 10px;background:linear-gradient(105deg,#9de5ae,#16834e 65%,#07512e);transform:rotateX(-5deg);box-shadow:inset -8px 0 0 #063f2940}
+.shopper-two .shopper-body{background:linear-gradient(100deg,#f6d78d,#bd7b2d 70%,#754519)}
+.shopper-three .shopper-body{background:linear-gradient(100deg,#b6c9ff,#536db4 70%,#263b79)}
+.shopper-arm{position:absolute;top:43px;width:13px;height:52px;border-radius:12px;background:linear-gradient(90deg,#eab88d,#a86e4d);transform-origin:top center;z-index:2}
+.shopper .arm-one{left:7px;transform:rotate(18deg);animation:armSwing 2.4s ease-in-out infinite}
+.shopper .arm-two{right:5px;transform:rotate(-28deg);animation:armSwing 2.4s ease-in-out infinite reverse}
+.shopper-leg{position:absolute;top:88px;width:17px;height:48px;border-radius:8px 8px 5px 5px;background:linear-gradient(90deg,#243a32,#101e19);transform-origin:top center}
+.shopper .leg-one{left:18px;animation:legWalk .8s ease-in-out infinite alternate}
+.shopper .leg-two{left:39px;animation:legWalk .8s ease-in-out infinite alternate-reverse}
+.shopper-bag{position:absolute;right:-13px;top:59px;width:30px;height:36px;border-radius:5px 5px 9px 9px;background:linear-gradient(135deg,#f1fff3,#5acb7d);color:#07512e;font-weight:900;display:grid;place-items:center;box-shadow:5px 8px 12px #0004;transform:rotateY(-18deg) rotateZ(-7deg);z-index:6}
+.shopper-two .shopper-bag{background:linear-gradient(135deg,#fff1c8,#e9a83e)}
+.floating-cart,.floating-box{position:absolute;z-index:8;font-size:27px;filter:drop-shadow(0 8px 8px #0005);animation:floatToken 3.5s ease-in-out infinite}
+.floating-cart{top:23px;right:18%;}.floating-box{top:55px;left:22%;color:#b6ffca;font-size:30px;animation-delay:-1.5s}
+.delivery-message{display:flex;align-items:center;gap:10px;color:#caffd5;font-size:14px;font-weight:700;margin:14px 0 20px;animation:contentRise .5s both}
+.delivery-message span{width:9px;height:9px;border-radius:50%;background:#66ed91;box-shadow:0 0 15px #66ed91;animation:twinkle 1s infinite}
+.delivery-road{position:absolute;z-index:5;bottom:5%;left:0;width:100%;height:125px;pointer-events:none;perspective:900px}
+.road-line{position:absolute;bottom:12px;left:-5%;width:110%;height:48px;background:linear-gradient(180deg,#07150f,#020805);transform:rotateX(54deg);border-top:2px solid #70d58e55}
+.road-line:after{content:"";position:absolute;left:0;right:0;top:20px;border-top:3px dashed #d8f8df88}
+.delivery-van{position:absolute;bottom:34px;left:-280px;width:240px;height:94px;animation:vanDrive 2.6s cubic-bezier(.2,.7,.2,1) forwards;filter:drop-shadow(0 18px 14px #0008);transform-style:preserve-3d}
+.van-shadow{position:absolute;bottom:-10px;left:12px;width:220px;height:23px;border-radius:50%;background:#0009;filter:blur(8px)}
+.van-body{position:absolute;left:0;bottom:13px;width:164px;height:69px;border-radius:13px 5px 4px 8px;background:linear-gradient(145deg,#effff2,#a7e8b7 60%,#4cb875);border:2px solid #d7ffe1;box-shadow:inset -10px -8px 15px #267d4c55;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:skewY(-1deg)}
+.van-logo{font-size:25px;letter-spacing:-1px;font-weight:1000;color:#07512e}.van-logo span{color:#28ad61}.van-caption{font-size:8px;letter-spacing:4px;color:#287447;font-weight:900}
+.van-cabin{position:absolute;right:0;bottom:13px;width:82px;height:61px;border-radius:6px 22px 5px 3px;background:linear-gradient(145deg,#d8ffe2,#54bb78);border:2px solid #e4ffeb;clip-path:polygon(0 0,65% 0,100% 38%,100% 100%,0 100%)}
+.van-cabin i{position:absolute;right:9px;top:7px;width:42px;height:25px;border-radius:4px 14px 3px 3px;background:linear-gradient(145deg,#163f36,#071e19);border:2px solid #8de2a5}
+.van-wheel{position:absolute;bottom:0;width:29px;height:29px;border-radius:50%;background:radial-gradient(circle,#b7c8bd 0 18%,#26362e 20% 42%,#080d0a 45%);border:4px solid #111b15;animation:wheelSpin .35s linear infinite}
+.wheel-one{left:29px}.wheel-two{right:22px}.van-light{position:absolute;right:-1px;bottom:38px;width:8px;height:11px;border-radius:3px;background:#fff2b3;box-shadow:0 0 16px #fff2b3}
+.delivery-mode .intro-content{animation:contentLift .7s forwards}
+.delivery-mode .intro-orb{animation:orbShrink .8s forwards}
+.delivery-mode .intro-wordmark{animation:wordmarkGlow 1s forwards}
+@keyframes shopperBob{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -8px;rotate:1deg}}
+@keyframes armSwing{0%,100%{rotate:-8deg}50%{rotate:18deg}}
+@keyframes legWalk{from{transform:rotate(-10deg)}to{transform:rotate(12deg)}}
+@keyframes floatToken{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-13px) rotate(8deg)}}
+@keyframes vanDrive{0%{left:-280px;transform:scale(.72) rotateY(-8deg)}65%{left:calc(50% - 120px);transform:scale(1.08) rotateY(0)}100%{left:calc(100% + 40px);transform:scale(.9) rotateY(5deg)}}
+@keyframes wheelSpin{to{transform:rotate(360deg)}}
+@keyframes contentLift{to{transform:translateY(-34px) scale(.88);opacity:.65}}
+@keyframes orbShrink{to{transform:scale(.72);opacity:.35}}
+@keyframes wordmarkGlow{to{text-shadow:0 0 45px #7ce99b99}}
+@media(max-width:600px){.shopping-scene{height:145px;transform:scale(.88);transform-origin:top center;margin-bottom:-3px}.shopper{transform:scale(.8)}.shopper-two{transform:scale(.95)}.delivery-road{bottom:10%}.delivery-van{scale:.78;transform-origin:left bottom}.intro-content{padding:12px}.intro-description{margin-bottom:10px}}
+@media(prefers-reduced-motion:reduce){.shopper,.shopper-arm,.shopper-leg,.floating-cart,.floating-box,.delivery-van,.van-wheel{animation-duration:4s!important}}
