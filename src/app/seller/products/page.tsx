@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { ArrowRight, PackagePlus, Pencil, Trash2, RefreshCw } from "lucide-react";
@@ -131,7 +132,7 @@ export default function SellerProducts() {
         <h2>منتجات متجرك ({products.length})</h2>
         {!products.length ? <p className="muted">لم تضف منتجات بعد.</p> : <div style={{ display: "grid", gap: 12 }}>
           {products.map(p => <article key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", borderBottom: "1px solid #e7eee8", padding: "12px 0" }}>
-            {p.image_urls?.[0] ? <img src={p.image_urls[0]} alt={p.name} style={{ width: 68, height: 68, objectFit: "cover", borderRadius: 10 }} /> : <div style={{ width: 68, height: 68, borderRadius: 10, background: "#edf7ef", display: "grid", placeItems: "center" }}>🛍️</div>}
+            {p.image_urls?.[0] ? <Image src={p.image_urls[0]} alt={p.name} width={68} height={68} style={{ width: 68, height: 68, objectFit: "cover", borderRadius: 10 }} /> : <div style={{ width: 68, height: 68, borderRadius: 10, background: "#edf7ef", display: "grid", placeItems: "center" }}>🛍️</div>}
             <div style={{ flex: 1, minWidth: 150 }}><b>{p.name}</b><p className="muted" style={{ margin: "4px 0" }}>{Number(p.price).toLocaleString("en-US")} SDG · المخزون {p.stock} · {p.active ? "منشور" : "مسودة"}</p></div>
             <button className="btn btn-outline" onClick={() => edit(p)} disabled={busy}><Pencil size={15} /> تعديل</button>
             <button className="btn btn-outline" onClick={() => remove(p)} disabled={busy}><Trash2 size={15} /> حذف</button>
