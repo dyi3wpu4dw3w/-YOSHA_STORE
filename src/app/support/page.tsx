@@ -1,0 +1,1 @@
+import Link from "next/link";export default function Support(){return <main className="container" style={{padding:"40px 0"}}><Link href="/">← الرئيسية</Link><h1>مركز المساعدة</h1><p className="muted">قنوات الدعم والتذاكر ستظهر هنا بعد تفعيل إعدادات البريد وخدمة العملاء.</p></main>}
