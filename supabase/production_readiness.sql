@@ -43,16 +43,24 @@ create policy "products seller manage" on public.products
     ))
   );
 
--- Seller dashboard must be able to read only orders containing that seller's items.
+-- Use a SECURITY DEFINER helper to avoid an orders <-> order_items RLS policy cycle.
+create or replace function public.seller_can_read_order(p_order_id uuid)
+returns boolean
+language sql stable security definer set search_path = public
+as $
+  select exists (
+    select 1 from public.order_items oi
+    join public.stores st on st.id = oi.store_id
+    where oi.order_id = p_order_id and st.owner_id = auth.uid()
+  );
+$;
+revoke all on function public.seller_can_read_order(uuid) from public;
+grant execute on function public.seller_can_read_order(uuid) to authenticated;
+
+-- Seller dashboard can read only orders containing that seller's items.
 drop policy if exists "orders seller read" on public.orders;
 create policy "orders seller read" on public.orders
-  for select using (
-    public.is_admin()
-    or exists (
-      select 1 from public.order_items oi
-      where oi.order_id = orders.id and public.owns_store(oi.store_id)
-    )
-  );
+  for select using (public.is_admin() or public.seller_can_read_order(id));
 
 -- All customer checkout writes must go through the atomic, stock-checking RPC.
 -- SECURITY DEFINER checkout_order remains the sole customer write path.
