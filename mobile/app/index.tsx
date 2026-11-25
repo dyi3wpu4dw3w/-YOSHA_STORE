@@ -3,6 +3,7 @@ import { ActivityIndicator, BackHandler, Linking, Platform, Pressable, StyleShee
 import { WebView, type WebViewNavigation } from "react-native-webview";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import { BrandMark } from "../components/Brand";
 
 const SITE_URL = (process.env.EXPO_PUBLIC_SITE_URL || "https://yosha-store.onrender.com").replace(/\/$/, "");
 const SITE_HOST = new URL(SITE_URL).host;
@@ -68,7 +69,7 @@ export default function Index() {
       />
       {loading && !failed ? (
         <View style={styles.loading}>
-          <View style={styles.logo}><Text style={styles.logoText}>Y</Text></View>
+          <View style={styles.logo}><BrandMark size={62}/></View>
           <ActivityIndicator size="large" color="#17643A" />
           <Text style={styles.loadingText}>جارٍ فتح متجر يوشا...</Text>
         </View>
@@ -93,8 +94,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#F4FBF5" },
   web: { flex: 1, backgroundColor: "#F4FBF5" },
   loading: { ...StyleSheet.absoluteFillObject, backgroundColor: "#F4FBF5", alignItems: "center", justifyContent: "center", gap: 14 },
-  logo: { width: 66, height: 66, borderRadius: 22, backgroundColor: "#E4F3E8", borderWidth: 1, borderColor: "#CDE5D3", alignItems: "center", justifyContent: "center" },
-  logoText: { color: "#17643A", fontSize: 39, fontWeight: "900" },
+  logo: { width: 82, height: 82, borderRadius: 27, backgroundColor: "#E4F3E8", borderWidth: 1, borderColor: "#CDE5D3", alignItems: "center", justifyContent: "center" },
   loadingText: { color: "#28583A", fontSize: 13, fontWeight: "700" },
   error: { ...StyleSheet.absoluteFillObject, backgroundColor: "#F4FBF5", alignItems: "center", justifyContent: "center", padding: 28, gap: 14 },
   errorTitle: { color: "#103C25", fontSize: 20, fontWeight: "900", textAlign: "center" },
