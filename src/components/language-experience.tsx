@@ -139,7 +139,56 @@ const translations: Record<string, string> = {
   "منشور": "Published",
   "مسودة": "Draft",
   "استخدم صورة JPG أو PNG أو WEBP.": "Use a JPG, PNG, or WEBP image.",
-  "حجم الصورة يجب ألا يتجاوز 5 ميجابايت.": "Image size must not exceed 5 MB."
+  "حجم الصورة يجب ألا يتجاوز 5 ميجابايت.": "Image size must not exceed 5 MB.",
+  "ملابس رجالية": "Men's clothing",
+  "إطلالات رجالية يومية ورسمية": "Everyday and formal men's styles",
+  "ملابس نسائية": "Women's clothing",
+  "أزياء وإطلالات نسائية": "Women's fashion and styles",
+  "الأحذية والحقائب": "Shoes & bags",
+  "أحذية وحقائب لكل المناسبات": "Shoes and bags for every occasion",
+  "الهواتف والإلكترونيات": "Phones & electronics",
+  "هواتف وأجهزة وإكسسوارات": "Phones, devices & accessories",
+  "الكمبيوتر والألعاب": "Computers & gaming",
+  "لابتوبات وملحقات وألعاب": "Laptops, accessories & games",
+  "المنزل والمطبخ": "Home & kitchen",
+  "أثاث وأدوات منزلية": "Furniture & homeware",
+  "الجمال والعناية": "Beauty & care",
+  "عناية شخصية ومستحضرات تجميل": "Personal care & cosmetics",
+  "الأطفال والألعاب": "Kids & toys",
+  "ملابس وألعاب ومستلزمات الأطفال": "Children's clothing, toys & essentials",
+  "الرياضة واللياقة": "Sports & fitness",
+  "معدات وملابس رياضية": "Sports equipment & clothing",
+  "الساعات والإكسسوارات": "Watches & accessories",
+  "ساعات وإكسسوارات أنيقة": "Watches and stylish accessories",
+  "السيارات وقطع الغيار": "Cars & spare parts",
+  "إكسسوارات وقطع غيار": "Accessories & spare parts",
+  "الكتب والمستلزمات": "Books & stationery",
+  "كتب وأدوات مكتبية ودراسية": "Books, office and school supplies",
+  "سجل دخولك أو أنشئ حساباً جديداً.": "Sign in or create a new account.",
+  "تأكيد كلمة المرور": "Confirm password",
+  "نسيت كلمة المرور؟": "Forgot password?",
+  "إنشاء حساب جديد": "Create a new account",
+  "الدخول إلى حسابك": "Sign in to your account",
+  "السعر": "Price",
+  "التصنيف": "Category",
+  "الكمية": "Quantity",
+  "إضافة إلى السلة": "Add to cart",
+  "متابعة التسوق": "Continue shopping",
+  "إتمام الشراء": "Complete purchase",
+  "تفاصيل الطلب": "Order details",
+  "عنوان التوصيل": "Delivery address",
+  "طريقة الدفع": "Payment method",
+  "تأكيد الطلب": "Confirm order",
+  "جارٍ تحميل المنتجات...": "Loading products...",
+  "لا توجد منتجات متاحة حالياً.": "No products are currently available.",
+  "ابحث عن منتج": "Search for a product",
+  "كل الفئات": "All categories",
+  "المنتجات": "Products",
+  "المتاجر": "Stores",
+  "طلب إنشاء متجر": "Store application",
+  "قدّم طلب إنشاء متجر أولاً.": "Submit a store application first.",
+  "متجرك قيد المراجعة أو موقوف. ستتمكن من إدارة المنتجات بعد اعتماد المتجر.": "Your store is under review or suspended. You can manage products once it is approved.",
+  "لا يوجد متجر مرتبط بهذا الحساب بعد.": "No store is linked to this account yet."
 };
 
 const reverse = Object.fromEntries(Object.entries(translations).map(([ar, en]) => [en, ar]));
@@ -168,22 +217,25 @@ export default function LanguageExperience() {
     document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
     document.body.dataset.language = language;
     const process = (root: Node) => {
-      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-      let node: Node | null;
-      while ((node = walker.nextNode())) {
-        const value = node.nodeValue || "";
-        if (!value.trim()) continue;
-        const translated = translate(value, language);
-        if (translated !== value) node.nodeValue = translated;
-      }
-      if (root instanceof HTMLElement) {
-        for (const attr of ["placeholder", "aria-label", "title"]) {
-          const value = root.getAttribute(attr);
-          if (value) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+      let node: Node | null = root;
+      while (node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const value = node.nodeValue || "";
+          if (value.trim()) {
             const translated = translate(value, language);
-            if (translated !== value) root.setAttribute(attr, translated);
+            if (translated !== value) node.nodeValue = translated;
+          }
+        } else if (node instanceof HTMLElement) {
+          for (const attr of ["placeholder", "aria-label", "title"]) {
+            const value = node.getAttribute(attr);
+            if (value) {
+              const translated = translate(value, language);
+              if (translated !== value) node.setAttribute(attr, translated);
+            }
           }
         }
+        node = walker.nextNode();
       }
     };
     process(document.body);
