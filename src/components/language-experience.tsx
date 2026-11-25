@@ -62,7 +62,6 @@ const translations: Record<string, string> = {
   "تواصل معنا": "Contact us",
   "النظام المتكامل": "The complete platform",
   "إدارة المنتجات": "Product management",
-  "مركز العميل": "Customer center",
   "الملف الشخصي": "Profile",
   "الموارد": "Resources",
   "سلة التسوق": "Shopping cart",
