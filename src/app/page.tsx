@@ -36,7 +36,7 @@ export default function Home(){
     </section>}
     <main>
       <header className="container site-header">
-        <Link href="/" className="site-logo">YOSHA<span>.</span></Link>
+        <Link href="/" className="site-logo"><img src="/ys-logo.svg" alt="YS" width="36" height="36"/> <span className="site-wordmark">YOSHA</span><span className="site-logo-dot">.</span></Link>
         <nav className="desktop-nav"><a href="#categories">التصنيفات</a><a href="#products">اكتشف المنتجات</a><Link href="/seller">افتح متجرك</Link></nav>
         <div className="header-actions"><Link className="btn btn-outline" href="/auth">دخول / حساب جديد</Link><button className="btn menu-button" aria-label="القائمة" onClick={()=>setMenu(!menu)}><Menu size={18}/></button></div>
       </header>
