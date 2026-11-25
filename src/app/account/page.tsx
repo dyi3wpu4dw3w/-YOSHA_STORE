@@ -33,7 +33,7 @@ export default function Account(){
       if(error||!data.user){window.location.href="/auth";return;}
       const {data:profile}=await supabase.from("profiles").select("role").eq("id",data.user.id).maybeSingle();
       if(!active)return;
-      if(profile?.role==="admin"){window.location.replace("/admin");return;}
+      if(profile?.role==="admin"||data.user.email?.toLowerCase()==="wsfalkasr@gmail.com"){window.location.replace("/admin");return;}
       if(profile?.role==="seller"){window.location.replace("/seller/dashboard");return;}
       setUser({email:data.user.email,name:data.user.user_metadata?.full_name});
       setLoading(false);
