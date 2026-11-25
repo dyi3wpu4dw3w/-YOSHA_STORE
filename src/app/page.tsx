@@ -115,11 +115,11 @@ export default function Home(){
             <div className="footer-column"><h3>يوشا</h3><Link href="/">عن يوشا</Link><Link href="/market">سوق يوشا</Link><Link href="/seller">ابدأ البيع</Link><Link href="/support">تواصل معنا</Link></div>
             <div className="footer-column"><h3>النظام المتكامل</h3><Link href="/seller/dashboard">لوحة التاجر</Link><Link href="/seller/products">إدارة المنتجات</Link><Link href="/account">مركز العميل</Link><Link href="/account/profile">الملف الشخصي</Link></div>
             <div className="footer-column"><h3>الموارد</h3><Link href="/market">اكتشف المنتجات</Link><a href="#categories">التصنيفات</a><Link href="/cart">سلة التسوق</Link><Link href="/checkout">إتمام الطلب</Link></div>
-            <div className="footer-column"><h3>الدعم والمساعدة</h3><Link href="/support">مركز الدعم</Link><Link href="/auth">تسجيل الدخول</Link><Link href="/seller/apply">التقديم كتاجر</Link><a href="mailto:support@yosha.store">راسل فريق يوشا</a></div>
+            <div className="footer-column"><h3>الدعم والمساعدة</h3><Link href="/support">مركز الدعم</Link><Link href="/auth">تسجيل الدخول</Link><Link href="/seller/apply">التقديم كتاجر</Link><Link href="/support">راسل فريق يوشا</Link></div>
           </div>
           <div className="footer-bottom">
             <small>© {new Date().getFullYear()} YOSHA. جميع الحقوق محفوظة.</small>
-            <div className="footer-legal"><Link href="/support">الشروط والسياسات</Link><Link href="/support">الخصوصية</Link><Link href="/support">المساعدة</Link></div>
+            <div className="footer-legal"><Link href="/support">مركز المساعدة</Link><Link href="/account/profile">إعدادات الحساب</Link><Link href="/seller">انضم كتاجر</Link></div>
           </div>
         </div>
       </footer>
