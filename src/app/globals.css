@@ -331,3 +331,125 @@ body{background:#f7f8f5;color:#18271f;letter-spacing:0}
 .drawer-login{width:100%;border-radius:13px}
 @keyframes drawerFade{from{opacity:0}to{opacity:1}}
 @keyframes drawerIn{from{transform:translateX(28px);opacity:.7}to{transform:translateX(0);opacity:1}}
+
+
+/* YOSHA responsive system: consistent desktop, tablet and mobile layouts */
+html{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:320px;max-width:100%;overflow-x:hidden}
+img,video,canvas,svg{max-width:100%}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+button,a{touch-action:manipulation}
+input,textarea,select{max-width:100%;min-width:0}
+main{min-width:0}
+.container{width:min(1180px,calc(100% - 40px))}
+.card{min-width:0}
+.btn{min-height:44px;white-space:normal;text-align:center}
+.site-header{min-width:0}
+.header-actions,.desktop-nav{min-width:0}
+.grid-products,.category-grid,.category-photo-grid{min-width:0}
+.product-card,.category-photo-card{min-width:0}
+.product-info h3,.product-info p{overflow-wrap:anywhere}
+table{max-width:100%;border-collapse:collapse}
+th,td{overflow-wrap:anywhere}
+:focus-visible{outline:3px solid #72c891;outline-offset:3px}
+
+@media(max-width:900px){
+  .container{width:calc(100% - 32px)}
+  .site-header{gap:12px}
+  .desktop-nav{gap:14px}
+  .section-block{padding-top:42px}
+  .products-section{padding-top:34px}
+  .category-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-products{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .seller-invite{margin-bottom:42px}
+}
+
+@media(max-width:680px){
+  .container{width:calc(100% - 28px)}
+  .site-header{padding:13px 0;flex-wrap:wrap}
+  .site-logo{font-size:22px;gap:7px}
+  .site-logo img{width:32px;height:32px}
+  .header-actions{gap:7px}
+  .header-actions .btn{min-height:42px;padding:9px 12px;font-size:12px}
+  .menu-button{min-height:42px;padding:9px 12px}
+  .hero{border-radius:20px;padding:20px!important;gap:18px!important}
+  .hero h1{font-size:clamp(28px,8vw,42px)!important;line-height:1.25!important}
+  .hero p{font-size:14px;line-height:1.9}
+  .market-showcase{min-height:230px;padding:14px;border-radius:20px}
+  .showcase-orbit{width:180px;height:180px}
+  .showcase-bag{font-size:82px}
+  .trust-row{gap:12px;font-size:12px;margin-top:22px}
+  .section-block{padding:34px 0 16px}
+  .products-section{padding:30px 0 46px}
+  .section-heading,.products-heading{gap:12px;align-items:flex-start}
+  .section-heading h2,.products-heading h2{font-size:22px;line-height:1.4}
+  .category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .category-card{min-width:0;padding:13px 11px;font-size:12px;gap:8px}
+  .category-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .category-photo{height:clamp(105px,31vw,145px)}
+  .category-photo-copy{padding:11px;gap:6px}
+  .category-photo-copy b{font-size:13px;line-height:1.5}
+  .category-photo-copy span{font-size:11px;line-height:1.6}
+  .grid-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .product-visual{height:clamp(112px,34vw,150px);font-size:48px}
+  .product-info{padding:11px}
+  .product-info h3{font-size:13px;line-height:1.55;margin:7px 0}
+  .product-info p{font-size:12px;line-height:1.6}
+  .product-info .btn{width:100%;padding:9px 8px;font-size:12px}
+  .search-box{width:100%;min-height:46px}
+  .search-box input{width:100%;min-width:0}
+  .market-categories{margin:8px 0 15px;padding:10px 0 5px;scrollbar-width:thin}
+  .market-chip{padding:9px 12px;font-size:12px}
+  .seller-invite{padding:18px;margin-bottom:34px;border-radius:18px;gap:14px}
+  .seller-invite h2{font-size:20px;line-height:1.5}
+  .seller-invite p{font-size:13px;line-height:1.8}
+  .site-footer{padding:28px 0}
+  .footer-inner{align-items:flex-start;flex-direction:column}
+  .footer-links{gap:12px;font-size:13px}
+  .account-drawer{width:min(340px,88vw);padding:17px 14px}
+  .drawer-link,.drawer-home{min-height:46px}
+  .intro-content{width:100%;max-width:100%;padding:12px 16px}
+  .intro-wordmark{font-size:clamp(54px,17vw,82px);letter-spacing:-3px}
+  .intro-kicker{font-size:8px;letter-spacing:2px}
+  .intro-arabic{font-size:clamp(17px,5vw,22px);line-height:1.6}
+  .intro-description{font-size:11px;letter-spacing:1px;line-height:1.8}
+  .intro-footnote{font-size:8px;letter-spacing:1.5px;margin-top:22px}
+  .shopping-scene{max-width:100%;overflow:visible}
+  .delivery-message{font-size:12px;justify-content:center}
+  main[style*="padding"]{max-width:100%}
+  main .card{border-radius:17px}
+  main h1{font-size:clamp(24px,7vw,34px)!important;line-height:1.35}
+  main h2{font-size:clamp(18px,5vw,24px);line-height:1.45}
+  main p{overflow-wrap:anywhere}
+  form.card{padding:16px!important;gap:11px!important}
+  form.card input,form.card textarea,form.card select,
+  main input,main textarea,main select{width:100%;min-width:0;font-size:16px}
+  main .btn{max-width:100%;font-size:13px}
+  main table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+  main th,main td{padding:9px!important;font-size:12px}
+  .site-footer .container{gap:18px}
+}
+
+@media(max-width:420px){
+  .container{width:calc(100% - 22px)}
+  .site-header{gap:8px}
+  .site-logo{font-size:20px}
+  .header-actions .btn-outline{padding:8px 10px;font-size:11px}
+  .sidebar-toggle span{display:none}
+  .hero{padding:16px!important}
+  .category-card{font-size:11px;padding:12px 9px}
+  .product-info{padding:9px}
+  .product-info h3{font-size:12px}
+  .product-info .btn{font-size:11px}
+  .account-drawer{width:min(320px,90vw)}
+  .grid-products{gap:8px}
+}
+
+/* Prevent horizontal page drift from wide dashboards and data grids */
+@media(max-width:680px){
+  main .grid-products{grid-template-columns:repeat(2,minmax(0,1fr))}
+  main [style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr!important}
+  main [style*="grid-template-columns:repeat(4"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  main [style*="min-width:650px"]{min-width:650px}
+  main .card{overflow-wrap:anywhere}
+}
