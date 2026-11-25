@@ -9,6 +9,9 @@ on:
       - ".github/workflows/mobile-android-apk.yml"
   workflow_dispatch:
 
+concurrency:
+  group: yosha-mobile-android-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
