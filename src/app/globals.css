@@ -453,3 +453,23 @@ th,td{overflow-wrap:anywhere}
   main [style*="min-width:650px"]{min-width:650px}
   main .card{overflow-wrap:anywhere}
 }
+
+
+/* YOSHA multi-column marketplace footer */
+.site-footer{background:#102d1e;color:#eaf5ed;padding:58px 0 22px;margin-top:58px}
+.site-footer .footer-inner{display:block}
+.footer-main{display:grid;grid-template-columns:1.45fr repeat(4,minmax(0,1fr));gap:34px;padding-bottom:42px}
+.footer-about{max-width:290px}
+.footer-brand{display:inline-block;color:#fff;font-size:30px;font-weight:950;letter-spacing:1px;text-decoration:none}
+.footer-about p{color:#c2d6c8;font-size:13px;line-height:1.9;margin:13px 0 22px}
+.footer-locale{display:inline-flex;align-items:center;gap:9px;border:1px solid #52705d;border-radius:30px;padding:9px 13px;color:#e0eee3;font-size:12px}
+.footer-locale-dot{color:#8bc99c}
+.footer-column{display:flex;flex-direction:column;align-items:flex-start;gap:13px}
+.footer-column h3{font-size:14px;color:#fff;margin:5px 0 7px;font-weight:850}
+.footer-column a,.footer-legal a{color:#c2d6c8;text-decoration:none;font-size:12px;line-height:1.7;transition:color .18s}
+.footer-column a:hover,.footer-legal a:hover{color:#8ce0a7}
+.footer-bottom{border-top:1px solid #365342;padding-top:19px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.footer-bottom small{color:#a9c3b1;font-size:11px}
+.footer-legal{display:flex;gap:22px;flex-wrap:wrap}
+@media(max-width:900px){.footer-main{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.footer-about{grid-column:span 3;max-width:480px}}
+@media(max-width:600px){.site-footer{padding:38px 0 20px;margin-top:38px}.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px;padding-bottom:28px}.footer-about{grid-column:span 2}.footer-brand{font-size:27px}.footer-column h3{font-size:13px}.footer-column a{font-size:12px}.footer-bottom{align-items:flex-start;flex-direction:column;gap:13px}.footer-legal{gap:15px}}
