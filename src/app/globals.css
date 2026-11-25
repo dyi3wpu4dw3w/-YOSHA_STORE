@@ -146,3 +146,11 @@ button,input{font:inherit}
 @keyframes wordmarkGlow{to{text-shadow:0 0 45px #7ce99b99}}
 @media(max-width:600px){.shopping-scene{height:145px;transform:scale(.88);transform-origin:top center;margin-bottom:-3px}.shopper{transform:scale(.8)}.shopper-two{transform:scale(.95)}.delivery-road{bottom:10%}.delivery-van{scale:.78;transform-origin:left bottom}.intro-content{padding:12px}.intro-description{margin-bottom:10px}}
 @media(prefers-reduced-motion:reduce){.shopper,.shopper-arm,.shopper-leg,.floating-cart,.floating-box,.delivery-van,.van-wheel{animation-duration:4s!important}}
+
+
+/* YS brand mark in the navigation */
+.site-logo{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+.site-logo img{display:block;width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(22,131,78,.16))}
+.site-logo .site-wordmark{color:#14532d}
+.site-logo .site-logo-dot{color:#22a06b;margin-inline-start:-8px}
+@media(max-width:520px){.site-logo img{width:33px;height:33px}}
