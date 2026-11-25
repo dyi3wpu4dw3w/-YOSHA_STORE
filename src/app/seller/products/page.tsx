@@ -11,7 +11,7 @@ type Product = {
   currency: string; stock: number; active: boolean; image_urls: string[];
   slug: string; category_id: string | null;
 };
-type Store = { id: string; name: string; status: string };
+type Store = { id: string; name: string; status: string; trial_ends_at: string | null };
 type Category = { id: string; name: string };
 type DbClient = NonNullable<ReturnType<typeof createClient>>;
 const empty = { name: "", description: "", price: "", stock: "1", image: "", active: false, category_id: "" };
@@ -21,6 +21,7 @@ const slugify = (value: string) => value.trim().toLowerCase().normalize("NFKD")
 export default function SellerProducts() {
   const [client, setClient] = useState<DbClient | null>(null);
   const [store, setStore] = useState<Store | null>(null);
+  const [hasAccess, setHasAccess] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form, setForm] = useState(empty);
@@ -31,10 +32,16 @@ export default function SellerProducts() {
 
   const load = useCallback(async (db: DbClient, ownerId: string) => {
     const { data: stores, error: storeError } = await db.from("stores")
-      .select("id,name,status").eq("owner_id", ownerId).order("created_at", { ascending: false }).limit(1);
+      .select("id,name,status,trial_ends_at").eq("owner_id", ownerId).order("created_at", { ascending: false }).limit(1);
     if (storeError) throw storeError;
     const current = stores?.[0] || null;
     setStore(current);
+    const trialActive = Boolean(current?.trial_ends_at && new Date(current.trial_ends_at).getTime() > Date.now());
+    const { data: activeSubscriptions } = current
+      ? await db.from("seller_subscriptions").select("id").eq("store_id", current.id)
+          .eq("status", "active").gt("ends_at", new Date().toISOString()).limit(1)
+      : { data: [] };
+    setHasAccess(trialActive || Boolean(activeSubscriptions?.length));
     const [{ data: cats, error: catError }, { data: rows, error: productError }] = await Promise.all([
       db.from("categories").select("id,name").eq("active", true).order("name"),
       current ? db.from("products").select("*").eq("store_id", current.id).order("created_at", { ascending: false })
@@ -111,7 +118,7 @@ export default function SellerProducts() {
       <button className="btn btn-outline" onClick={async () => { if (!client) return; const { data: { user } } = await client.auth.getUser(); if (user) await load(client, user.id); }}><RefreshCw size={16} /> تحديث</button>
     </header>
     {!store ? <section className="card" style={{ padding: 24 }}>قدّم طلب إنشاء متجر أولاً. <Link className="btn" href="/seller/apply">طلب إنشاء متجر</Link></section> :
-    store.status !== "approved" ? <section className="card" style={{ padding: 24 }}>متجرك قيد المراجعة أو موقوف. ستتمكن من إدارة المنتجات بعد اعتماد المتجر.</section> :
+    store.status !== "approved" ? <section className="card" style={{ padding: 24 }}>متجرك قيد المراجعة أو موقوف. ستتمكن من إدارة المنتجات بعد اعتماد المتجر.</section> : !hasAccess ? <section className="card" style={{ padding: 24, display: "grid", gap: 10 }}><b>انتهت الفترة التجريبية أو الاشتراك.</b><p className="muted">تم إيقاف نشر منتجات متجرك مؤقتاً. اشترك في باقة من لوحة التاجر لإعادة ظهور المنتجات واستئناف الإدارة.</p><Link className="btn" href="/seller/dashboard">الانتقال إلى الاشتراكات</Link></section> :
     <>
       <form className="card" onSubmit={save} style={{ padding: 22, display: "grid", gap: 12, marginBottom: 22 }}>
         <h2 style={{ margin: 0 }}>{editing ? "تعديل المنتج" : "إضافة منتج جديد"}</h2>
