@@ -473,3 +473,74 @@ th,td{overflow-wrap:anywhere}
 .footer-legal{display:flex;gap:22px;flex-wrap:wrap}
 @media(max-width:900px){.footer-main{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.footer-about{grid-column:span 3;max-width:480px}}
 @media(max-width:600px){.site-footer{padding:38px 0 20px;margin-top:38px}.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px;padding-bottom:28px}.footer-about{grid-column:span 2}.footer-brand{font-size:27px}.footer-column h3{font-size:13px}.footer-column a{font-size:12px}.footer-bottom{align-items:flex-start;flex-direction:column;gap:13px}.footer-legal{gap:15px}}
+
+
+/* Mobile-first finishing pass across customer, seller and admin pages */
+@media (max-width: 680px) {
+  html, body { width: 100%; overflow-x: clip; }
+  body { font-size: 14px; }
+  main, main > *, main section, main article, main header, main form { min-width: 0; }
+  main .card { max-width: 100%; overflow-wrap: anywhere; }
+  main [style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  main [style*="display: flex"] {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  main header { align-items: flex-start !important; }
+  main h1 { overflow-wrap: anywhere; }
+  main form { width: 100%; }
+  main form label { min-width: 0; }
+  main input, main textarea, main select {
+    min-height: 46px;
+    padding-inline: 12px !important;
+    border-radius: 12px;
+  }
+  main textarea { min-height: 108px; }
+  main button, main a.btn {
+    max-width: 100%;
+    min-height: 44px;
+    line-height: 1.5;
+  }
+  main .card table, main table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  main th, main td { white-space: nowrap; }
+  main .grid-products { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  main .category-photo-grid,
+  main .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .account-drawer { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+  .drawer-footer { padding-bottom: env(safe-area-inset-bottom); }
+  .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-column, .footer-about { min-width: 0; }
+  .footer-column a { overflow-wrap: anywhere; }
+  .site-header .header-actions { margin-inline-start: auto; }
+  .site-header .header-actions > a { white-space: nowrap; }
+  .seller-invite > *, .seller-invite .btn { max-width: 100%; }
+}
+
+@media (max-width: 420px) {
+  .container { width: calc(100% - 20px); }
+  main[style*="max-width"] { max-width: 100% !important; }
+  main .card { border-radius: 15px; }
+  main .card[style*="padding"] { padding: 14px !important; }
+  main .grid-products { gap: 8px; }
+  main .grid-products .card { padding: 10px !important; }
+  main .btn { padding: 10px 12px; font-size: 12px; }
+  main h1 { font-size: clamp(23px, 7vw, 30px) !important; }
+  .footer-main { gap: 22px 12px; }
+}
+
+@media (max-width: 360px) {
+  .site-logo { font-size: 18px; }
+  .site-logo img { width: 29px; height: 29px; }
+  .header-actions .btn-outline { padding-inline: 8px; font-size: 10px; }
+  .grid-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-info .btn { white-space: normal; }
+  .intro-content { padding-inline: 10px; }
+}
