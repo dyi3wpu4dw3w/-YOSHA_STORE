@@ -3,12 +3,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { Search, ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag } from "lucide-react";
 
-const categories=["الإلكترونيات","الأزياء","المنزل والمطبخ","الجمال والعناية","الرياضة","الأطفال"];
-const demos=[
-  ["سماعات لاسلكية","إلكترونيات","48,000","https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80"],
-  ["حقيبة يومية أنيقة","أزياء","35,000","https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80"],
-  ["مصباح مكتبي عصري","المنزل","29,500","https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80"],
-  ["ساعة ذكية رياضية","إلكترونيات","89,000","https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"]
+const categories=[
+  {name:"ملابس رجالية",slug:"mens-fashion",image:"https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=900&q=80",desc:"إطلالات رجالية يومية ورسمية"},
+  {name:"ملابس نسائية",slug:"womens-fashion",image:"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80",desc:"أزياء وإطلالات نسائية"},
+  {name:"الأحذية والحقائب",slug:"shoes-bags",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80",desc:"أحذية وحقائب لكل المناسبات"},
+  {name:"الهواتف والإلكترونيات",slug:"electronics",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",desc:"هواتف وأجهزة وإكسسوارات"},
+  {name:"الكمبيوتر والألعاب",slug:"computers-gaming",image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",desc:"لابتوبات وملحقات وألعاب"},
+  {name:"المنزل والمطبخ",slug:"home-kitchen",image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=900&q=80",desc:"أثاث وأدوات منزلية"},
+  {name:"الجمال والعناية",slug:"beauty-care",image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=80",desc:"عناية شخصية ومستحضرات تجميل"},
+  {name:"الأطفال والألعاب",slug:"kids-toys",image:"https://images.unsplash.com/photo-156 игрушка?auto=format&fit=crop&w=900&q=80",desc:"ملابس وألعاب ومستلزمات الأطفال"},
+  {name:"الرياضة واللياقة",slug:"sports-fitness",image:"https://images.unsplash.com/photo-151の?auto=format&fit=crop&w=900&q=80",desc:"معدات وملابس رياضية"},
+  {name:"الساعات والإكسسوارات",slug:"watches-accessories",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",desc:"ساعات وإكسسوارات أنيقة"},
+  {name:"السيارات وقطع الغيار",slug:"auto-parts",image:"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80",desc:"إكسسوارات وقطع غيار"},
+  {name:"الكتب والمستلزمات",slug:"books-stationery",image:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80",desc:"كتب وأدوات مكتبية ودراسية"}
 ];
 
 export default function Home(){
@@ -55,13 +62,10 @@ export default function Home(){
         </div>
         <div className="glass market-showcase"><div className="showcase-orbit"><div className="showcase-bag">🛍️</div><span className="showcase-dot dot-a"/><span className="showcase-dot dot-b"/></div><div className="card showcase-label"><b>YOSHA MARKET</b><div className="muted" style={{fontSize:12,marginTop:4}}>اكتشف • اختَر • استمتع</div></div><div className="pill showcase-tag">YOUR WORLD, ONE STORE</div></div>
       </section>
-      <section className="container section-block" id="categories"><div className="section-heading"><div><div className="muted">تسوق حسب اهتمامك</div><h2>التصنيفات الرئيسية</h2></div></div>
-        <div className="category-grid">{categories.map((c,i)=><Link key={c} href={"/market?category="+encodeURIComponent(c)} className="card category-card"><span>{["💻","👕","🏡","✨","⚽","🧸"][i]}　{c}</span><ArrowLeft size={17}/></Link>)}</div>
+      <section className="container section-block" id="categories"><div className="section-heading"><div><div className="muted">تصفح أقسام السوق</div><h2>تسوّق حسب الفئة</h2><p className="muted">اختَر القسم وشاهد المنتجات والمتاجر التي تبيع ما تبحث عنه.</p></div></div>
+        <div className="category-grid category-photo-grid">{categories.map(c=><Link key={c.slug} href={"/market?category="+c.slug} className="card category-photo-card"><div className="category-photo"><img src={c.image} alt={c.name} loading="lazy"/></div><div className="category-photo-copy"><b>{c.name}</b><span>{c.desc}</span><small>استكشف القسم <ArrowLeft size={14}/></small></div></Link>)}</div>
       </section>
-      <section className="container products-section" id="products"><div className="products-heading"><div><div className="muted">اختيارات تستحق التجربة</div><h2>منتجات مختارة</h2></div><label className="card search-box"><Search size={17}/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="ابحث عن منتج..."/></label></div>
-        <div className="grid-products">{demos.filter(p=>p[0].includes(q)).map(p=><article className="card product-card" key={p[0]}><div className="product-visual"><img src={p[3]} alt={p[0]} loading="lazy" referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/></div><div className="product-info"><span className="pill">{p[1]}</span><h3>{p[0]}</h3><b>{p[2]} ج.س</b><div style={{marginTop:14}}><Link className="btn btn-outline product-link" href="/market">عرض التفاصيل</Link></div></div></article>)}</div>
-        <p className="muted demo-note">المنتجات الظاهرة هنا أمثلة تصميمية أولية؛ المنتجات الفعلية تُحمّل من قاعدة البيانات بعد إعداد Supabase وإضافة بيانات المتاجر.</p>
-      </section>
+      <section className="container seller-invite"><div><div className="muted">لديك منتجات تريد بيعها؟</div><h2>اعرض منتجاتك في سوق يوشا</h2><p className="muted">افتح متجرك، أضف صور منتجاتك، واستقبل طلبات العملاء من مكان واحد.</p></div><Link href="/seller" className="btn">ابدأ البيع الآن <ArrowLeft size={17}/></Link></section>
       <footer className="site-footer"><div className="container footer-inner"><div><b className="footer-brand">YOSHA STORE</b><p>سوق واحد. فرص بلا حدود.</p></div><div className="footer-links"><Link href="/seller">مركز البائعين</Link><Link href="/auth">حسابي</Link><Link href="/support">الدعم</Link></div><small>© {new Date().getFullYear()} YOSHA</small></div></footer>
     </main>
   </>;
