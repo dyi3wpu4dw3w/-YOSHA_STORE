@@ -56,6 +56,10 @@ Checkout, seller product editing, order processing, push notifications, deeper r
 ## Android test APK
 
 A GitHub Actions workflow is provided at `.github/workflows/mobile-android-apk.yml`.
+Before building, add these two repository Actions secrets under **Settings → Secrets and variables → Actions**:
+- `EXPO_PUBLIC_SUPABASE_URL`: the existing Supabase project URL.
+- `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: the project's publishable key (never the service-role/secret key).
+
 To build a signed-for-testing (debug) APK:
 1. Open the repository's Actions tab.
 2. Select **Build YOSHA STORE Android APK**.
