@@ -51,3 +51,16 @@ For Google Play use an Android production AAB build. iOS distribution requires a
 - Branded visual system aligned with the website.
 
 Checkout, seller product editing, order processing, push notifications, deeper role-specific navigation and App Store / Play Store release are planned follow-up stages. The app has not yet been type-checked, device-tested or built into APK/AAB/IPA artifacts.
+
+
+## Android test APK
+
+A GitHub Actions workflow is provided at `.github/workflows/mobile-android-apk.yml`.
+To build a signed-for-testing (debug) APK:
+1. Open the repository's Actions tab.
+2. Select **Build YOSHA STORE Android APK**.
+3. Choose **Run workflow** and select `feature/yosha-mobile-app`.
+4. When the run succeeds, open the run's Artifacts section and download `yosha-store-android-debug-apk`.
+5. Extract the ZIP and install `app-debug.apk` on an Android phone. Allow installation from the browser/file manager if Android asks.
+
+This is a debug/test APK, not a Play Store release. The app also needs the Supabase project URL and publishable key at build time to connect to the live account/database. Do not use a service-role or secret key in the app.
