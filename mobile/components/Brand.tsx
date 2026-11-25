@@ -1,0 +1,14 @@
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { SvgXml } from "react-native-svg";
+const logo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dfffea"/><stop offset=".48" stop-color="#54c982"/><stop offset="1" stop-color="#08743f"/></linearGradient><filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#14532d" flood-opacity=".22"/></filter></defs>
+<rect x="4" y="4" width="120" height="120" rx="34" fill="#f5fff7"/><circle cx="64" cy="64" r="52" fill="none" stroke="#a8e8bc" stroke-width="2"/>
+<path d="M25 35h17l22 29 22-29h17L72 76v19H56V76z" fill="url(#g)" filter="url(#s)"/>
+<path d="M72 52c8-10 26-10 31 0 5 9-1 16-12 20l-9 3c-5 2-6 5-2 7 4 2 10 1 15-3l10 10c-9 10-26 13-39 6-13-7-12-23 1-31l12-6c4-2 5-4 2-6-3-2-7-1-11 2z" fill="#16834e" opacity=".94"/>
+<path d="M18 75c18 21 74 28 95-3" fill="none" stroke="#70d99a" stroke-width="4" stroke-linecap="round"/><circle cx="99" cy="30" r="4" fill="#31b96b"/></svg>`;
+export function BrandMark({size=48}:{size?:number}) { return <SvgXml xml={logo} width={size} height={size}/>; }
+export default function Brand({compact=false}:{compact?:boolean}) {
+ return <View style={styles.wrap}><BrandMark size={compact?38:48}/><View><Text style={[styles.word,{fontSize:compact?20:25}]}>YOSHA</Text><Text style={styles.sub}>STORE · SHOP SMART</Text></View></View>;
+}
+const styles=StyleSheet.create({wrap:{flexDirection:"row",alignItems:"center",gap:9},word:{fontWeight:"900",letterSpacing:1.5,color:"#14532D"},sub:{fontSize:8,letterSpacing:2.2,color:"#6B8072",marginTop:1}});
