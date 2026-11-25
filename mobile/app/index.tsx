@@ -76,7 +76,7 @@ export default function Index() {
       ) : null}
       {failed ? (
         <View style={styles.error}>
-          <View style={styles.logo}><Text style={styles.logoText}>Y</Text></View>
+          <View style={styles.logo}><BrandMark size={62}/></View>
           <Ionicons name="cloud-offline-outline" size={42} color="#17643A" />
           <Text style={styles.errorTitle}>تعذر الاتصال بمتجر YOSHA</Text>
           <Text style={styles.errorCopy}>تحقق من اتصال الإنترنت ثم أعد المحاولة.</Text>
