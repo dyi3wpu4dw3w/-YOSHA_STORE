@@ -40,6 +40,26 @@ jobs:
           java-version: "17"
       - name: Install dependencies
         run: npm install
+      - name: Normalize Expo Font Android publication metadata
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const fontDir = path.dirname(require.resolve('expo-font/package.json'));
+          const configPath = path.join(fontDir, 'expo-module.config.json');
+          const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+          const version = require('expo-font/package.json').version;
+          config.android = config.android || {};
+          config.android.publication = {
+            ...(config.android.publication || {}),
+            id: 'expo.modules.font',
+            group: 'host.exp.exponent',
+            version,
+            repository: 'local-maven-repo'
+          };
+          fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + "\\n");
+          console.log('Expo Font Android publication version:', version);
+          NODE
       - name: Verify Expo dependency compatibility
         run: npx expo install --check
       - name: Validate Expo configuration
