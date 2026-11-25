@@ -2,11 +2,20 @@
 
 Expo + React Native application for Android and iOS. The mobile app shares the existing Supabase project and database with the Next.js website.
 
+## Brand and design
+
+The mobile UI follows the live website identity:
+- Forest green primary palette (#16834E / #14532D), mint surfaces, white cards and soft green borders.
+- The official YOSHA emblem and wordmark are rendered from the website's `public/ys-logo.svg` asset through the shared `Brand` component.
+- Shared design tokens live in `theme.ts`.
+- Arabic-first, right-aligned screens with matching green hero panels, rounded cards, typography hierarchy and navigation styling.
+- Customer storefront, authentication, seller workspace, admin overview and account screens use the same design language.
+
 ## Setup
 
 1. Install Node.js LTS and npm.
-2. Copy .env.example to .env.
-3. Set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY using the existing Supabase project URL and publishable key.
+2. Copy `.env.example` to `.env`.
+3. Set `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` using the existing Supabase project URL and publishable key.
 4. From this directory run:
 
     npm install
@@ -36,8 +45,9 @@ For Google Play use an Android production AAB build. iOS distribution requires a
 ## Current scope
 
 - Email/password sign-in and sign-up through Supabase Auth.
-- Live product and approved-store listing.
+- Live product and approved-store listing with local product-name search.
 - Initial seller and admin dashboards using the existing database.
 - Shared accounts and records with the website.
+- Branded visual system aligned with the website.
 
-Checkout, seller product editing, order processing, push notifications and App Store / Play Store release are planned follow-up stages.
+Checkout, seller product editing, order processing, push notifications, deeper role-specific navigation and App Store / Play Store release are planned follow-up stages. The app has not yet been type-checked, device-tested or built into APK/AAB/IPA artifacts.
