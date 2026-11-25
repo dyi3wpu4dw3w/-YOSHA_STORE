@@ -68,6 +68,10 @@ jobs:
         run: npx tsc --noEmit
       - name: Generate Android native project
         run: npx expo prebuild --platform android --no-install --clean
+      - name: Bundle JavaScript into the Android APK
+        run: |
+          mkdir -p android/app/src/main/assets android/app/src/main/res
+          npx expo export:embed --platform android --dev false --entry-file node_modules/expo-router/entry --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
       - name: Diagnose Expo Android module metadata
         run: |
           npx expo-modules-autolinking resolve --platform android --json > /tmp/expo-modules.json
