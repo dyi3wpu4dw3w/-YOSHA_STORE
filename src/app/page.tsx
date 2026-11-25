@@ -11,8 +11,8 @@ const categories=[
   {name:"الكمبيوتر والألعاب",slug:"computers-gaming",image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",desc:"لابتوبات وملحقات وألعاب"},
   {name:"المنزل والمطبخ",slug:"home-kitchen",image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=900&q=80",desc:"أثاث وأدوات منزلية"},
   {name:"الجمال والعناية",slug:"beauty-care",image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=80",desc:"عناية شخصية ومستحضرات تجميل"},
-  {name:"الأطفال والألعاب",slug:"kids-toys",image:"https://images.unsplash.com/photo-156 игрушка?auto=format&fit=crop&w=900&q=80",desc:"ملابس وألعاب ومستلزمات الأطفال"},
-  {name:"الرياضة واللياقة",slug:"sports-fitness",image:"https://images.unsplash.com/photo-151の?auto=format&fit=crop&w=900&q=80",desc:"معدات وملابس رياضية"},
+  {name:"الأطفال والألعاب",slug:"kids-toys",image:"https://images.unsplash.com/photo-1503919005314-30d93d07d823?auto=format&fit=crop&w=900&q=80",desc:"ملابس وألعاب ومستلزمات الأطفال"},
+  {name:"الرياضة واللياقة",slug:"sports-fitness",image:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80",desc:"معدات وملابس رياضية"},
   {name:"الساعات والإكسسوارات",slug:"watches-accessories",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",desc:"ساعات وإكسسوارات أنيقة"},
   {name:"السيارات وقطع الغيار",slug:"auto-parts",image:"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80",desc:"إكسسوارات وقطع غيار"},
   {name:"الكتب والمستلزمات",slug:"books-stationery",image:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80",desc:"كتب وأدوات مكتبية ودراسية"}
