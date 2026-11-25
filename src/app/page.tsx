@@ -61,7 +61,7 @@ export default function Home(){
       {menu&&<div className="container card mobile-menu"><Link href="/seller">مركز البائعين</Link><Link href="/account">حسابي</Link><Link href="/admin">الإدارة</Link></div>}
       <section className="container hero" style={{padding:"clamp(30px,7vw,78px)",display:"grid",gridTemplateColumns:"1.15fr .85fr",gap:28,alignItems:"center",marginTop:12}}>
         <div><span className="pill"><Sparkles size={13} style={{display:"inline",verticalAlign:"middle"}}/> تجربة تسوق جديدة</span>
-          <h1 style={{fontFamily:"inherit",fontSize:"clamp(38px,6vw,68px)",lineHeight:1.35,margin:"20px 0",fontWeight:800,letterSpacing:0,color:"#ffffff",textShadow:"0 2px 10px rgba(13,55,33,.38)"}}>كل ما تبحث عنه<br/><span style={{color:"#153f2b",textShadow:"0 1px 5px rgba(13,55,33,.12)"}}>في مكان واحد.</span></h1>
+          <h1 style={{fontFamily:"Arial Black, Arial, sans-serif",fontSize:"clamp(38px,6vw,68px)",lineHeight:1.35,margin:"20px 0",fontWeight:900,letterSpacing:"-1.5px",color:"#ffffff",textShadow:"0 2px 10px rgba(13,55,33,.38)"}}>كل ما تبحث عنه<br/><span style={{color:"#153f2b",textShadow:"0 1px 5px rgba(13,55,33,.12)"}}>في مكان واحد.</span></h1>
           <p className="muted" style={{fontSize:18,lineHeight:1.9,maxWidth:560}}>اكتشف منتجات مميزة من متاجر متعددة، وتسوق بسهولة وأمان مع تجربة مصممة لتكبر معك.</p>
           <div style={{display:"flex",gap:12,flexWrap:"wrap",marginTop:26}}><a className="btn" href="#products">ابدأ التسوق <ArrowLeft size={17}/></a><Link className="btn btn-outline" href="/seller">أنشئ متجرك</Link></div>
           <div className="trust-row"><span><ShieldCheck size={17}/> تجربة آمنة</span><span><Truck size={17}/> خيارات توصيل</span><span><Heart size={17}/> متاجر متنوعة</span></div>
