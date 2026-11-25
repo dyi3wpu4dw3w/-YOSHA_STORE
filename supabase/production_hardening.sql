@@ -8,7 +8,7 @@ begin
  if v_user is null then raise exception 'Authentication required'; end if;
  if jsonb_typeof(p_items) <> 'array' or jsonb_array_length(p_items)=0 then raise exception 'Cart is empty'; end if;
  if jsonb_typeof(p_address) <> 'object' then raise exception 'A delivery address is required'; end if;
- if p_payment_method not in ('cash_on_delivery','bank_transfer','bankak','mycashi','fawry') then raise exception 'Unsupported payment method'; end if;
+ if p_payment_method not in ('cash_on_delivery','bankak','mycashi','braaavo') then raise exception 'Unsupported payment method'; end if;
  if p_shipping_fee < 0 then raise exception 'Invalid shipping fee'; end if;
  for v_item in select product_id, sum(quantity)::integer as quantity from jsonb_to_recordset(p_items) as x(product_id uuid, quantity integer) group by product_id loop
    if v_item.product_id is null or v_item.quantity is null or v_item.quantity < 1 then raise exception 'Invalid cart item'; end if;
