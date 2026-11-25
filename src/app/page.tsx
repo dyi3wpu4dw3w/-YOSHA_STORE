@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag, X, Home as HomeIcon, UserRound, Package, MapPin, Wallet, LogIn, Store, Headset } from "lucide-react";
 
 const categories=[
@@ -22,6 +23,8 @@ export default function Home(){
   const [menu,setMenu]=useState(false);
   const [entered,setEntered]=useState(false);
   const [delivery,setDelivery]=useState(false);
+  const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string}|null>(null);
+  useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer"});});return()=>{live=false}},[]);
 
   return <>
     {!entered && <section className={`cinematic-intro ${delivery ? "delivery-mode" : ""}`} aria-label="مرحباً بك في يوشا">
@@ -60,8 +63,13 @@ export default function Home(){
       {menu&&<><button className="sidebar-backdrop" aria-label="إغلاق القائمة" onClick={()=>setMenu(false)}/><aside className="account-drawer" aria-label="القائمة الرئيسية">
   <div className="drawer-head"><Link href="/" className="site-logo" onClick={()=>setMenu(false)}><img src="/ys-logo.svg" alt="YS" width="34" height="34"/><span className="site-wordmark">YOSHA</span></Link><button className="drawer-close" onClick={()=>setMenu(false)} aria-label="إغلاق"><X size={20}/></button></div>
   <Link className="drawer-home" href="/" onClick={()=>setMenu(false)}><HomeIcon size={18}/> الرئيسية <span>←</span></Link>
+  {account&&<Link href="/account/profile" onClick={()=>setMenu(false)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 10px",margin:"8px 0 14px",borderRadius:16,background:"#edf7ef",border:"1px solid #dceee0"}}>
+    <span style={{width:48,height:48,borderRadius:"50%",overflow:"hidden",background:"#d9eddf",display:"grid",placeItems:"center",flexShrink:0}}>{account.avatar?<img src={account.avatar} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<UserRound size={23}/>}</span>
+    <span style={{minWidth:0,flex:1}}><b style={{display:"block",fontSize:14}}>{account.name}</b><small style={{display:"block",fontSize:11,color:"#6b8072",overflow:"hidden",textOverflow:"ellipsis"}}>{account.email}</small><small style={{color:"#187344",fontWeight:700}}>{account.role==="seller"?"ملف التاجر · تعديل البيانات":"ملفي الشخصي · تعديل البيانات"}</small></span>
+  </Link>}
   <div className="drawer-label">حسابك وخدماتك</div>
-  <Link className="drawer-link drawer-feature" href="/account" onClick={()=>setMenu(false)}><UserRound size={18}/> مركز العميل</Link>
+  <Link className="drawer-link drawer-feature" href={account?.role==="seller"?"/seller/dashboard":"/account"} onClick={()=>setMenu(false)}>{account?.role==="seller"?<Store size={18}/>:<UserRound size={18}/>} {account?.role==="seller"?"لوحة التاجر":"مركز العميل"}</Link>
+  {account&&<Link className="drawer-link" href="/account/profile" onClick={()=>setMenu(false)}><UserRound size={18}/> الملف الشخصي وبيانات المتجر</Link>}
   <Link className="drawer-link" href="/account?tab=orders" onClick={()=>setMenu(false)}><Package size={18}/> طلباتي</Link>
   <Link className="drawer-link" href="/account?tab=favorites" onClick={()=>setMenu(false)}><Heart size={18}/> المفضلة</Link>
   <Link className="drawer-link" href="/account?tab=addresses" onClick={()=>setMenu(false)}><MapPin size={18}/> عناويني</Link>
@@ -71,7 +79,7 @@ export default function Home(){
   <a className="drawer-link" href="#products" onClick={()=>setMenu(false)}><Sparkles size={18}/> اكتشف المنتجات</a>
   <Link className="drawer-link" href="/seller" onClick={()=>setMenu(false)}><Store size={18}/> افتح متجرك</Link>
   <Link className="drawer-link" href="/support" onClick={()=>setMenu(false)}><Headset size={18}/> الدعم والمساعدة</Link>
-  <div className="drawer-footer"><Link href="/auth" className="btn drawer-login" onClick={()=>setMenu(false)}><LogIn size={17}/> تسجيل الدخول</Link></div>
+  <div className="drawer-footer">{account?<><Link href="/account/profile" className="btn drawer-login" onClick={()=>setMenu(false)}>إدارة الملف الشخصي</Link><button className="drawer-link" style={{width:"100%",border:0,background:"transparent",cursor:"pointer"}} onClick={async()=>{const s=createClient();if(s)await s.auth.signOut();setAccount(null);setMenu(false);location.href="/";}}><LogIn size={17}/> تسجيل الخروج</button></>:<Link href="/auth" className="btn drawer-login" onClick={()=>setMenu(false)}><LogIn size={17}/> تسجيل الدخول</Link>}</div>
 </aside></>}
       <section className="container hero" style={{padding:"clamp(30px,7vw,78px)",display:"grid",gridTemplateColumns:"1.15fr .85fr",gap:28,alignItems:"center",marginTop:12}}>
         <div><span className="pill"><Sparkles size={13} style={{display:"inline",verticalAlign:"middle"}}/> تجربة تسوق جديدة</span>
