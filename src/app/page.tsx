@@ -5,10 +5,10 @@ import { Search, ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingB
 
 const categories=["الإلكترونيات","الأزياء","المنزل والمطبخ","الجمال والعناية","الرياضة","الأطفال"];
 const demos=[
-  ["سماعات لاسلكية","إلكترونيات","48,000","https://share.google/aK3wdJetLdpGdy68P"],
-  ["حقيبة يومية أنيقة","أزياء","35,000","https://share.google/Ku6FqqtaU6yZMR6Zo"],
-  ["مصباح مكتبي عصري","المنزل","29,500","https://share.google/oJ13RsIsxaysgv9S2"],
-  ["ساعة ذكية رياضية","إلكترونيات","89,000","https://share.google/CYiNfb0dt73pvow3b"]
+  ["سماعات لاسلكية","إلكترونيات","48,000","https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80"],
+  ["حقيبة يومية أنيقة","أزياء","35,000","https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80"],
+  ["مصباح مكتبي عصري","المنزل","29,500","https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80"],
+  ["ساعة ذكية رياضية","إلكترونيات","89,000","https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"]
 ];
 
 export default function Home(){
@@ -59,7 +59,7 @@ export default function Home(){
         <div className="category-grid">{categories.map((c,i)=><Link key={c} href={"/market?category="+encodeURIComponent(c)} className="card category-card"><span>{["💻","👕","🏡","✨","⚽","🧸"][i]}　{c}</span><ArrowLeft size={17}/></Link>)}</div>
       </section>
       <section className="container products-section" id="products"><div className="products-heading"><div><div className="muted">اختيارات تستحق التجربة</div><h2>منتجات مختارة</h2></div><label className="card search-box"><Search size={17}/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="ابحث عن منتج..."/></label></div>
-        <div className="grid-products">{demos.filter(p=>p[0].includes(q)).map(p=><article className="card product-card" key={p[0]}><div className="product-visual"><img src={p[3]} alt={p[0]} loading="lazy" referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"contain"}}/></div><div className="product-info"><span className="pill">{p[1]}</span><h3>{p[0]}</h3><b>{p[2]} ج.س</b><div style={{marginTop:14}}><Link className="btn btn-outline product-link" href="/market">عرض المنتجات</Link></div></div></article>)}</div>
+        <div className="grid-products">{demos.filter(p=>p[0].includes(q)).map(p=><article className="card product-card" key={p[0]}><div className="product-visual"><img src={p[3]} alt={p[0]} loading="lazy" referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/></div><div className="product-info"><span className="pill">{p[1]}</span><h3>{p[0]}</h3><b>{p[2]} ج.س</b><div style={{marginTop:14}}><Link className="btn btn-outline product-link" href="/market">عرض التفاصيل</Link></div></div></article>)}</div>
         <p className="muted demo-note">المنتجات الظاهرة هنا أمثلة تصميمية أولية؛ المنتجات الفعلية تُحمّل من قاعدة البيانات بعد إعداد Supabase وإضافة بيانات المتاجر.</p>
       </section>
       <footer className="site-footer"><div className="container footer-inner"><div><b className="footer-brand">YOSHA STORE</b><p>سوق واحد. فرص بلا حدود.</p></div><div className="footer-links"><Link href="/seller">مركز البائعين</Link><Link href="/auth">حسابي</Link><Link href="/support">الدعم</Link></div><small>© {new Date().getFullYear()} YOSHA</small></div></footer>
