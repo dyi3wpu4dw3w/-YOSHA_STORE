@@ -25,6 +25,7 @@ export default function Home(){
   const [entered,setEntered]=useState(false);
   const [delivery,setDelivery]=useState(false);
   const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string}|null>(null);
+  useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
   useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer"});});return()=>{live=false}},[]);
 
   return <>
@@ -47,7 +48,7 @@ export default function Home(){
         {!delivery ? <button className="intro-enter" onClick={()=>setDelivery(true)}><ShoppingBag size={18}/> ادخل عالم يوشا <ArrowLeft size={18}/></button> : <div className="delivery-message"><span/> طلبك في الطريق... أهلاً بك في يوشا</div>}
         <div className="intro-footnote">YOSHA STORE <span>•</span> YOUR WORLD, ONE STORE</div>
       </div>
-      {delivery && <div className="delivery-road" aria-hidden="true"><div className="road-line"/><div className="delivery-bike" onAnimationEnd={()=>setEntered(true)}>
+      {delivery && <div className="delivery-road" aria-hidden="true"><div className="road-line"/><div className="delivery-bike" onAnimationEnd={()=>{sessionStorage.setItem("yosha_intro_completed","1");setEntered(true)}}>
         <div className="bike-rider"><i className="rider-helmet"/><i className="rider-body"/><i className="rider-arm"/><i className="rider-leg"/></div>
         <div className="bike-frame"/><div className="bike-fairing"><b>YOSHA</b></div>
         <div className="bike-wheel bike-wheel-one"/><div className="bike-wheel bike-wheel-two"/>
