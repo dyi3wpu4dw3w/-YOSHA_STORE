@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag, X, Home as HomeIcon, UserRound, Package, MapPin, Wallet, LogIn, Store, Headset, Facebook } from "lucide-react";
+import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag, X, Home as HomeIcon, UserRound, Package, MapPin, Wallet, LogIn, Store, Headset, Facebook, Copy, Share2, MessageCircle } from "lucide-react";
 import { LanguagePicker } from "@/components/language-experience";
 
 const categories=[
@@ -24,10 +24,14 @@ export default function Home(){
   const [menu,setMenu]=useState(false);
   const [entered,setEntered]=useState(false);
   const [delivery,setDelivery]=useState(false);
-  const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string}|null>(null);
+  const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string;storeSlug?:string;storeName?:string}|null>(null);
+  const [shareMessage,setShareMessage]=useState("");
   useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
   useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
-  useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer"});});return()=>{live=false}},[]);
+  useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(!live)return;let ownedStore:{slug:string;name:string}|null=null;if(p?.role==="seller"){const {data:st}=await s.from("stores").select("slug,name").eq("owner_id",user.id).eq("status","approved").maybeSingle();if(st)ownedStore=st;}if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer",storeSlug:ownedStore?.slug,storeName:ownedStore?.name});});return()=>{live=false}},[]);
+  const storeUrl=account?.storeSlug&&typeof window!=="undefined"?`${window.location.origin}/store/${encodeURIComponent(account.storeSlug)}`:"";
+  async function copyStoreLink(){if(!storeUrl)return;try{await navigator.clipboard.writeText(storeUrl);setShareMessage("تم نسخ رابط متجرك.");}catch{setShareMessage("تعذر النسخ تلقائياً. انسخ الرابط: "+storeUrl);}}
+  async function shareStore(){if(!storeUrl)return;const shareData={title:account?.storeName||"متجري على YOSHA",text:`تفضل بزيارة ${account?.storeName||"متجري"} على YOSHA`,url:storeUrl};if(navigator.share){try{await navigator.share(shareData);setShareMessage("تم فتح خيارات المشاركة.");}catch(error){if(error instanceof Error&&error.name!=="AbortError")setShareMessage("تعذر فتح المشاركة.");}}else{await copyStoreLink();}}
 
   return <>
     {!entered && <section className={`cinematic-intro ${delivery ? "delivery-mode" : ""}`} aria-label="مرحباً بك في يوشا">
@@ -70,6 +74,15 @@ export default function Home(){
     <span style={{width:48,height:48,borderRadius:"50%",overflow:"hidden",background:"#d9eddf",display:"grid",placeItems:"center",flexShrink:0}}>{account.avatar?<img src={account.avatar} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<UserRound size={23}/>}</span>
     <span style={{minWidth:0,flex:1}}><b style={{display:"block",fontSize:14}}>{account.name}</b><small style={{display:"block",fontSize:11,color:"#6b8072",overflow:"hidden",textOverflow:"ellipsis"}}>{account.email}</small><small style={{color:"#187344",fontWeight:700}}>{account.role==="seller"?"ملف التاجر · تعديل البيانات":"ملفي الشخصي · تعديل البيانات"}</small></span>
   </Link>}
+  {account?.storeSlug&&<section style={{padding:"10px 12px 14px",margin:"-2px 0 14px",borderRadius:16,background:"#f1faf3",border:"1px solid #dceee0"}}>
+    <div style={{display:"flex",alignItems:"center",gap:9,fontWeight:800,color:"#176b3e",marginBottom:10}}><Share2 size={18}/> مشاركة المتجر</div>
+    <p style={{fontSize:12,color:"#64756a",margin:"0 0 10px"}}>{account.storeName||"متجرك"} · شارك رابط متجرك مع العملاء</p>
+    <button type="button" className="drawer-link" style={{width:"100%",border:0,background:"white",cursor:"pointer",marginBottom:6}} onClick={copyStoreLink}><Copy size={17}/> نسخ رابط المتجر</button>
+    <a className="drawer-link" style={{background:"white",marginBottom:6}} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(storeUrl)}`} target="_blank" rel="noopener noreferrer"><Facebook size={17}/> مشاركة على فيسبوك</a>
+    <a className="drawer-link" style={{background:"white",marginBottom:6}} href={`https://wa.me/?text=${encodeURIComponent((account.storeName||"متجري")+" على YOSHA: "+storeUrl)}`} target="_blank" rel="noopener noreferrer"><MessageCircle size={17}/> مشاركة على واتساب</a>
+    <button type="button" className="drawer-link" style={{width:"100%",border:0,background:"white",cursor:"pointer"}} onClick={shareStore}><Share2 size={17}/> تطبيقات أخرى</button>
+    {shareMessage&&<p role="status" style={{fontSize:11,color:"#176b3e",margin:"9px 0 0",overflowWrap:"anywhere"}}>{shareMessage}</p>}
+  </section>}
   <div className="drawer-label">حسابك وخدماتك</div>
   <Link className="drawer-link drawer-feature" href={account?.role==="seller"?"/seller/dashboard":"/account"} onClick={()=>setMenu(false)}>{account?.role==="seller"?<Store size={18}/>:<UserRound size={18}/>} {account?.role==="seller"?"لوحة التاجر":"مركز العميل"}</Link>
   {account&&<Link className="drawer-link" href="/account/profile" onClick={()=>setMenu(false)}><UserRound size={18}/> الملف الشخصي وبيانات المتجر</Link>}
