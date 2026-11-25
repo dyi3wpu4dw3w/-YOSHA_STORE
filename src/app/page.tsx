@@ -104,7 +104,25 @@ export default function Home(){
         </div>
       </section>
       <section className="container seller-invite"><div><div className="muted">لديك منتجات تريد بيعها؟</div><h2>اعرض منتجاتك في سوق يوشا</h2><p className="muted">افتح متجرك، أضف صور منتجاتك، واستقبل طلبات العملاء من مكان واحد.</p></div><Link href="/seller" className="btn">ابدأ البيع الآن <ArrowLeft size={17}/></Link></section>
-      <footer className="site-footer"><div className="container footer-inner"><div><b className="footer-brand">YOSHA STORE</b><p>سوق واحد. فرص بلا حدود.</p></div><div className="footer-links"><Link href="/seller">مركز البائعين</Link><Link href="/auth">حسابي</Link><Link href="/support">الدعم</Link></div><small>© {new Date().getFullYear()} YOSHA</small></div></footer>
+      <footer className="site-footer">
+        <div className="container footer-inner">
+          <div className="footer-main">
+            <div className="footer-about">
+              <Link href="/" className="footer-brand">YOSHA</Link>
+              <p>عالمك كله في مكان واحد. تسوّق واكتشف المتاجر وابدأ تجارتك من منصة واحدة.</p>
+              <div className="footer-locale"><span>السودان</span><span className="footer-locale-dot">•</span><span>العربية</span></div>
+            </div>
+            <div className="footer-column"><h3>يوشا</h3><Link href="/">عن يوشا</Link><Link href="/market">سوق يوشا</Link><Link href="/seller">ابدأ البيع</Link><Link href="/support">تواصل معنا</Link></div>
+            <div className="footer-column"><h3>النظام المتكامل</h3><Link href="/seller/dashboard">لوحة التاجر</Link><Link href="/seller/products">إدارة المنتجات</Link><Link href="/account">مركز العميل</Link><Link href="/account/profile">الملف الشخصي</Link></div>
+            <div className="footer-column"><h3>الموارد</h3><Link href="/market">اكتشف المنتجات</Link><a href="#categories">التصنيفات</a><Link href="/cart">سلة التسوق</Link><Link href="/checkout">إتمام الطلب</Link></div>
+            <div className="footer-column"><h3>الدعم والمساعدة</h3><Link href="/support">مركز الدعم</Link><Link href="/auth">تسجيل الدخول</Link><Link href="/seller/apply">التقديم كتاجر</Link><a href="mailto:support@yosha.store">راسل فريق يوشا</a></div>
+          </div>
+          <div className="footer-bottom">
+            <small>© {new Date().getFullYear()} YOSHA. جميع الحقوق محفوظة.</small>
+            <div className="footer-legal"><Link href="/support">الشروط والسياسات</Link><Link href="/support">الخصوصية</Link><Link href="/support">المساعدة</Link></div>
+          </div>
+        </div>
+      </footer>
     </main>
   </>;
 }
