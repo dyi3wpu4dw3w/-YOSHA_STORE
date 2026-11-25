@@ -21,7 +21,7 @@ language plpgsql security definer set search_path=public as $$
 declare v public.invoices%rowtype;
 begin
  if auth.uid() is null then raise exception 'Authentication required'; end if;
- if p_method not in ('bank_transfer','bankak','mycashi','fawry') then raise exception 'Unsupported method'; end if;
+ if p_method not in ('bankak','mycashi','braaavo') then raise exception 'Unsupported method'; end if;
  select * into v from public.invoices where id=p_invoice_id for update;
  if not found or not public.owns_store(v.store_id) then raise exception 'Invoice not found'; end if;
  if v.status not in ('unpaid','overdue') then raise exception 'Invoice is not payable'; end if;
