@@ -29,23 +29,23 @@ export default function Apply() {
         return;
       }
 
-      const { error } = await supabase.from("seller_applications").insert({
-        user_id: user.id,
-        business_name: name.trim(),
-        phone: phone.trim(),
-        description: description.trim(),
+      const { data, error } = await supabase.rpc("create_seller_application", {
+        p_business_name: name.trim(),
+        p_phone: phone.trim(),
+        p_description: description.trim(),
       });
-
       if (error) throw error;
-      setMessage("وصل طلبك بنجاح، وسيتم مراجعته من إدارة يوشا.");
+      if (!data?.store_id) throw new Error("لم يتم إنشاء سجل المتجر، حاول مرة أخرى.");
+
+      setMessage("تم إنشاء طلب متجرك بنجاح. المتجر الآن قيد مراجعة الإدارة، وسيظهر في لوحة التاجر بعد الاعتماد.");
+      setName("");
+      setPhone("");
+      setDescription("");
     } catch (error: unknown) {
       const detail = error && typeof error === "object" && "message" in error
         ? String((error as { message: unknown }).message)
         : error instanceof Error ? error.message : "حدث خطأ غير معروف";
-      const code = error && typeof error === "object" && "code" in error
-        ? String((error as { code: unknown }).code)
-        : "";
-      setMessage(code ? `تعذر إرسال الطلب: ${detail} ( ${code} )` : `تعذر إرسال الطلب: ${detail}`);
+      setMessage("تعذر إنشاء المتجر: " + detail);
     } finally {
       setBusy(false);
     }
@@ -54,13 +54,13 @@ export default function Apply() {
   return (
     <main className="container" style={{ maxWidth: 680, padding: "36px 0" }}>
       <Link href="/seller">← مركز البائعين</Link>
-      <h1 style={{ fontSize: 34 }}>طلب إنشاء متجر</h1>
-      <p className="muted">أرسل بيانات نشاطك التجاري لبدء مراجعة الطلب.</p>
+      <h1 style={{ fontSize: 34 }}>إنشاء متجر جديد</h1>
+      <p className="muted">أدخل بيانات نشاطك التجاري. سيتم إنشاء سجل المتجر مباشرة بحالة قيد المراجعة، ثم تفعيله بعد موافقة الإدارة.</p>
       <form className="card" onSubmit={send} style={{ padding: 22, display: "grid", gap: 14 }}>
-        <input required value={name} onChange={e => setName(e.target.value)} placeholder="اسم النشاط التجاري" className="card" style={{ padding: 13 }} />
-        <input required value={phone} onChange={e => setPhone(e.target.value)} placeholder="رقم التواصل" className="card" style={{ padding: 13 }} />
-        <textarea required value={description} onChange={e => setDescription(e.target.value)} placeholder="نبذة عن نشاطك والمنتجات التي ستبيعها" className="card" style={{ padding: 13, minHeight: 120 }} />
-        <button className="btn" disabled={busy}>{busy ? "جارٍ الإرسال..." : "إرسال طلب المراجعة"}</button>
+        <input required maxLength={100} value={name} onChange={e => setName(e.target.value)} placeholder="اسم المتجر أو النشاط التجاري" className="card" style={{ padding: 13 }} />
+        <input required maxLength={30} value={phone} onChange={e => setPhone(e.target.value)} placeholder="رقم التواصل" className="card" style={{ padding: 13 }} />
+        <textarea required maxLength={1000} value={description} onChange={e => setDescription(e.target.value)} placeholder="وصف المتجر والمنتجات التي ستبيعها" className="card" style={{ padding: 13, minHeight: 120 }} />
+        <button className="btn" disabled={busy}>{busy ? "جارٍ إنشاء المتجر..." : "إنشاء المتجر وإرسال للمراجعة"}</button>
         {message && <p role="status" className="pill">{message}</p>}
       </form>
     </main>
