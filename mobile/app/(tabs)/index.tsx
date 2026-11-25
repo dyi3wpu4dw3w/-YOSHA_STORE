@@ -3,7 +3,7 @@ import {ActivityIndicator,FlatList,Image,RefreshControl,ScrollView,StyleSheet,Te
 import {Ionicons} from "@expo/vector-icons";
 import {supabase} from "../../lib/supabase";
 import {Yosha} from "../../theme";
-import Brand from "../../components/Brand";
+import Brand, { BrandMark } from "../../components/Brand";
 type Product={id:string;name:string;price:number;currency:string;image_urls:string[];description:string|null};
 type Store={id:string;name:string;slug:string};
 export default function HomeScreen(){
