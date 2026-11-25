@@ -1,0 +1,5 @@
+import {useEffect,useState} from "react";
+import {ActivityIndicator,View} from "react-native";
+import {Redirect} from "expo-router";
+import {supabase,supabaseConfigured} from "../lib/supabase";
+export default function Index(){const [ready,setReady]=useState(false);const [signedIn,setSignedIn]=useState(false);useEffect(()=>{if(!supabaseConfigured){setReady(true);return;}supabase.auth.getSession().then(({data})=>{setSignedIn(Boolean(data.session));setReady(true);});const {data:listener}=supabase.auth.onAuthStateChange((_e,session)=>{setSignedIn(Boolean(session));setReady(true);});return()=>listener.subscription.unsubscribe();},[]);if(!ready)return <View style={{flex:1,alignItems:"center",justifyContent:"center"}}><ActivityIndicator size="large" color="#B89455"/></View>;return <Redirect href={signedIn?"/(tabs)":"/auth"}/>;}
