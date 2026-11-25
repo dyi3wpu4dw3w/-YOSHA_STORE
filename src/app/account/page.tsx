@@ -31,6 +31,10 @@ export default function Account(){
     supabase.auth.getUser().then(({data,error})=>{
       if(!active)return;
       if(error||!data.user){window.location.href="/auth";return;}
+      const {data:profile}=await supabase.from("profiles").select("role").eq("id",data.user.id).maybeSingle();
+      if(!active)return;
+      if(profile?.role==="admin"){window.location.replace("/admin");return;}
+      if(profile?.role==="seller"){window.location.replace("/seller/dashboard");return;}
       setUser({email:data.user.email,name:data.user.user_metadata?.full_name});
       setLoading(false);
     });
@@ -54,7 +58,7 @@ export default function Account(){
           <b style={{display:"block",fontSize:16}}>{user?.name||"مرحباً بك"}</b>
           <span className="muted" style={{fontSize:12,wordBreak:"break-word"}}>{user?.email}</span>
         </div>
-        {sections.map(item=>{const Icon=item.icon;return <Link key={item.id} href={item.id==="overview"?"/account":"/account?tab="+item.id} style={{display:"flex",alignItems:"center",gap:10,padding:12,borderRadius:12,background:tab===item.id?"#eaf5ed":"transparent",color:tab===item.id?"#17683c":"#34483b",fontWeight:700,fontSize:14}}><Icon size={18}/>{item.label}</Link>;})}
+        {sections.map(item=>{const Icon=item.icon;return <Link key={item.id} href={item.id==="overview"?"/account":"/account?tab="+item.id} onClick={()=>setTab(item.id)} style={{display:"flex",alignItems:"center",gap:10,padding:12,borderRadius:12,background:tab===item.id?"#eaf5ed":"transparent",color:tab===item.id?"#17683c":"#34483b",fontWeight:700,fontSize:14}}><Icon size={18}/>{item.label}</Link>;})}
         <button onClick={logout} className="drawer-link" style={{width:"100%",border:0,background:"transparent",cursor:"pointer",marginTop:10}}><LogOut size={18}/> تسجيل الخروج</button>
       </aside>
       <section className="card" style={{padding:"clamp(22px,4vw,36px)",minHeight:280}}>
