@@ -210,3 +210,20 @@ body{background:#f7f8f5;color:#18271f;letter-spacing:0}
 .intro-footnote{font-family:Arial,sans-serif;letter-spacing:2px}
 @media(max-width:850px){.hero{padding:clamp(24px,6vw,44px)!important}}
 @media(max-width:520px){.category-photo{height:145px}.intro-arabic{font-size:20px}.intro-enter{width:min(100%,300px)}}
+
+
+/* YOSHA luxury SUV: visual-only replacement; preserve the existing drive animation */
+.delivery-van{width:280px;height:112px;filter:drop-shadow(0 20px 17px #000b)}
+.van-shadow{left:18px;width:250px;height:25px;background:#000b;filter:blur(9px)}
+.van-body{left:4px;bottom:13px;width:264px;height:43px;border-radius:24px 20px 13px 14px;background:linear-gradient(180deg,#e1eee8 0%,#849d91 16%,#173c2d 42%,#071b14 100%);border:1px solid #b9d4c5;box-shadow:inset 0 4px 5px #ffffff66,inset 0 -9px 12px #020906,0 5px 9px #0009;transform:none}
+.van-body:before{content:"";position:absolute;left:9px;right:8px;top:-8px;height:12px;border-radius:16px 18px 4px 4px;background:linear-gradient(180deg,#c9d9d1,#315b48);border:1px solid #b6cbbf}
+.van-logo{position:absolute;left:83px;top:8px;font-size:15px;letter-spacing:.5px;color:#f1fff6;text-shadow:0 1px 4px #001b0d}
+.van-logo span{color:#7df0a5}
+.van-caption{position:absolute;left:103px;top:25px;font-size:5px;letter-spacing:2px;color:#b8d9c5}
+.van-cabin{right:39px;bottom:48px;width:126px;height:51px;border-radius:34px 38px 5px 5px;background:linear-gradient(145deg,#c5d8ce,#426957 55%,#183b2d);border:1px solid #c4d8cc;clip-path:polygon(12% 0,75% 0,100% 100%,0 100%)}
+.van-cabin:after{content:"";position:absolute;left:15px;right:9px;bottom:-2px;height:7px;background:linear-gradient(90deg,#a9bdb2,#eff8f2,#799889);border-radius:4px}
+.van-cabin i{right:17px;top:7px;width:82px;height:29px;border-radius:20px 25px 3px 3px;background:linear-gradient(145deg,#183b35,#061b18 75%);border:1px solid #9ebdaf;box-shadow:inset 0 0 12px #6c9b8666}
+.van-wheel{bottom:0;width:34px;height:34px;border:4px solid #101713;background:radial-gradient(circle,#e5eee8 0 10%,#71877b 12% 20%,#18231d 23% 44%,#050907 47%);box-shadow:0 0 0 2px #91a99a55;animation:wheelSpin .35s linear infinite}
+.wheel-one{left:35px}.wheel-two{right:43px}
+.van-light{right:-1px;bottom:35px;width:12px;height:8px;border-radius:3px 8px 8px 3px;background:#f5fff0;box-shadow:0 0 18px #d9ffe7,0 0 5px #fff}
+@media(max-width:600px){.delivery-van{scale:.78;transform-origin:left bottom}}
