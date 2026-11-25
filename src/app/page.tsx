@@ -87,6 +87,7 @@ export default function Home(){
   </section>}
   <div className="drawer-label">حسابك وخدماتك</div>
   <Link className="drawer-link drawer-feature" href={account?.role==="seller"?"/seller/dashboard":"/account"} onClick={()=>setMenu(false)}>{account?.role==="seller"?<Store size={18}/>:<UserRound size={18}/>} {account?.role==="seller"?"لوحة التاجر":"مركز العميل"}</Link>
+  {account?.role==="admin"&&<Link className="drawer-link drawer-feature" href="/admin" onClick={()=>setMenu(false)}><ShieldCheck size={18}/> لوحة تحكم الإدارة</Link>}
   {account&&<Link className="drawer-link" href="/account/profile" onClick={()=>setMenu(false)}><UserRound size={18}/> الملف الشخصي وبيانات المتجر</Link>}
   <Link className="drawer-link" href="/account?tab=orders" onClick={()=>setMenu(false)}><Package size={18}/> طلباتي</Link>
   <Link className="drawer-link" href="/account?tab=favorites" onClick={()=>setMenu(false)}><Heart size={18}/> المفضلة</Link>
