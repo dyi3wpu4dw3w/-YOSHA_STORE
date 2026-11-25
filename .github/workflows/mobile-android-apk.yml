@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: yosha-mobile-android-${{ github.ref }}
+  group: yosha-mobile-android-v2-${{ github.ref }}
   cancel-in-progress: true
 permissions:
   contents: read
