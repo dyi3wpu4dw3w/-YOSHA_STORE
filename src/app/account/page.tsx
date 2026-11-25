@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import {useEffect,useState} from "react";
-import {useSearchParams} from "next/navigation";
 import {createClient} from "@/lib/supabase/client";
 import {Home,Package,Heart,MapPin,Wallet,LogOut,UserRound,ArrowRight} from "lucide-react";
 
@@ -20,11 +19,11 @@ const descriptions:Record<string,string>={
   wallet:"رصيدك وحركات محفظتك ستظهر هنا عند تفعيل خدمة المحفظة."
 };
 export default function Account(){
-  const search=useSearchParams();
-  const tab=sections.some(x=>x.id===search.get("tab"))?search.get("tab")!:"overview";
+  const [tab,setTab]=useState("overview");
   const [user,setUser]=useState<{email?:string;name?:string}|null>(null);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState("");
+  useEffect(()=>{const requested=new URLSearchParams(window.location.search).get("tab")||"overview";setTab(sections.some(x=>x.id===requested)?requested:"overview");},[]);
   useEffect(()=>{
     let active=true;
     const supabase=createClient();
