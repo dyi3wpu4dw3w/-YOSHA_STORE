@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag, X, Home as HomeIcon, UserRound, Package, MapPin, Wallet, LogIn, Store, Headset, Facebook } from "lucide-react";
+import { LanguagePicker } from "@/components/language-experience";
 
 const categories=[
   {name:"ملابس رجالية",slug:"mens-fashion",image:"https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=900&q=80",desc:"إطلالات رجالية يومية ورسمية"},
@@ -79,6 +80,7 @@ export default function Home(){
   <a className="drawer-link" href="#products" onClick={()=>setMenu(false)}><Sparkles size={18}/> اكتشف المنتجات</a>
   <Link className="drawer-link" href="/seller" onClick={()=>setMenu(false)}><Store size={18}/> افتح متجرك</Link>
   <Link className="drawer-link" href="/support" onClick={()=>setMenu(false)}><Headset size={18}/> الدعم والمساعدة</Link>
+  <LanguagePicker/>
   <div className="drawer-footer">{account?<><Link href="/account/profile" className="btn drawer-login" onClick={()=>setMenu(false)}>إدارة الملف الشخصي</Link><button className="drawer-link" style={{width:"100%",border:0,background:"transparent",cursor:"pointer"}} onClick={async()=>{const s=createClient();if(s)await s.auth.signOut();setAccount(null);setMenu(false);location.href="/";}}><LogIn size={17}/> تسجيل الخروج</button></>:<Link href="/auth" className="btn drawer-login" onClick={()=>setMenu(false)}><LogIn size={17}/> تسجيل الدخول</Link>}</div>
 </aside></>}
       <section className="container hero" style={{padding:"clamp(30px,7vw,78px)",display:"grid",gridTemplateColumns:"1.15fr .85fr",gap:28,alignItems:"center",marginTop:12}}>
