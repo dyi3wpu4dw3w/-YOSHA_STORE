@@ -111,6 +111,7 @@ export default function Home(){
               <Link href="/" className="footer-brand">YOSHA</Link>
               <p>عالمك كله في مكان واحد. تسوّق واكتشف المتاجر وابدأ تجارتك من منصة واحدة.</p>
               <div className="footer-locale"><span>السودان</span><span className="footer-locale-dot">•</span><span>العربية</span></div>
+              <a href="mailto:wsfalkasr@gmail.com" style={{display:"inline-flex",alignItems:"center",gap:8,marginTop:10,color:"inherit",textDecoration:"none"}}><span aria-hidden="true">✉</span><span>wsfalkasr@gmail.com</span></a>
               <a href="https://www.facebook.com/share/1H39aMdw8v/" target="_blank" rel="noopener noreferrer" aria-label="صفحة يوشا على فيسبوك" style={{display:"inline-flex",alignItems:"center",gap:8,marginTop:14,color:"inherit",textDecoration:"none"}}><Facebook size={20}/> <span>تابعنا على فيسبوك</span></a>
             </div>
             <div className="footer-column"><h3>يوشا</h3><Link href="/">عن يوشا</Link><Link href="/market">سوق يوشا</Link><Link href="/seller">ابدأ البيع</Link><Link href="/support">تواصل معنا</Link></div>
