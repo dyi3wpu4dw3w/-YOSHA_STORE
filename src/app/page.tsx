@@ -29,20 +29,26 @@ export default function Home(){
       <div className="intro-noise" /><div className="intro-stars"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
       <div className="intro-aurora intro-aurora-one"/><div className="intro-aurora intro-aurora-two"/>
       <div className="intro-content">
-        <div className="intro-orb"><div className="orb-core"><span>Y</span></div><div className="orb-ring orb-ring-one"/><div className="orb-ring orb-ring-two"/><div className="orb-ring orb-ring-three"/><span className="orb-satellite"/></div>
-        <div className="intro-kicker"><span/> THE WORLD OF POSSIBILITIES <span/></div><h1 className="intro-wordmark">YOSHA<span>.</span></h1>
-        <p className="intro-arabic">عالمك كله... في مكان واحد</p><p className="intro-description">اكتشف. اختَر. استمتع.</p>
-        <div className="shopping-scene" aria-hidden="true"><div className="scene-floor"/>
-          <div className="shopper shopper-one"><div className="shopper-head"/><div className="shopper-hair"/><div className="shopper-body"/><div className="shopper-arm arm-one"/><div className="shopper-arm arm-two"/><div className="shopper-leg leg-one"/><div className="shopper-leg leg-two"/><div className="shopper-bag">Y</div></div>
-          <div className="shopper shopper-two"><div className="shopper-head"/><div className="shopper-hair"/><div className="shopper-body"/><div className="shopper-arm arm-one"/><div className="shopper-arm arm-two"/><div className="shopper-leg leg-one"/><div className="shopper-leg leg-two"/><div className="shopper-bag">✦</div></div>
-          <div className="shopper shopper-three"><div className="shopper-head"/><div className="shopper-hair"/><div className="shopper-body"/><div className="shopper-arm arm-one"/><div className="shopper-arm arm-two"/><div className="shopper-leg leg-one"/><div className="shopper-leg leg-two"/><div className="shopper-bag">Y</div></div>
-          <div className="floating-cart">🛒</div><div className="floating-box">✧</div>
+        <div className="intro-brand-emblem"><span className="emblem-orbit orbit-a"/><span className="emblem-orbit orbit-b"/><img src="/ys-logo.svg" alt="شعار YOSHA" /></div>
+        <div className="intro-kicker"><span/> THE WORLD OF POSSIBILITIES <span/></div>
+        <h1 className="intro-wordmark" aria-label="YOSHA">YOSHA<span>.</span></h1>
+        <p className="intro-arabic">عالمك كله... في مكان واحد</p>
+        <p className="intro-description">اكتشف عالماً من الخيارات، وصمّم تجربتك بطريقتك.</p>
+        <div className="intro-brand-stage" aria-hidden="true">
+          <div className="stage-halo"/><div className="stage-platform platform-back"/>
+          <div className="stage-platform platform-front"/>
+          <div className="stage-word">YOSHA<span>.</span></div>
+          <div className="stage-caption">YOUR WORLD · ONE DESTINATION</div>
+          <span className="stage-spark spark-one"/><span className="stage-spark spark-two"/><span className="stage-spark spark-three"/>
         </div>
         {!delivery ? <button className="intro-enter" onClick={()=>setDelivery(true)}><ShoppingBag size={18}/> ادخل عالم يوشا <ArrowLeft size={18}/></button> : <div className="delivery-message"><span/> طلبك في الطريق... أهلاً بك في يوشا</div>}
         <div className="intro-footnote">YOSHA STORE <span>•</span> YOUR WORLD, ONE STORE</div>
       </div>
-      {delivery && <div className="delivery-road" aria-hidden="true"><div className="road-line"/><div className="delivery-van" onAnimationEnd={()=>setEntered(true)}>
-        <div className="van-shadow"/><div className="van-body"><span className="van-logo">YOSHA<span>.</span></span><span className="van-caption">DELIVERY</span></div><div className="van-cabin"><i/></div><div className="van-wheel wheel-one"/><div className="van-wheel wheel-two"/><div className="van-light"/>
+      {delivery && <div className="delivery-road" aria-hidden="true"><div className="road-line"/><div className="delivery-bike" onAnimationEnd={()=>setEntered(true)}>
+        <div className="bike-rider"><i className="rider-helmet"/><i className="rider-body"/><i className="rider-arm"/><i className="rider-leg"/></div>
+        <div className="bike-frame"/><div className="bike-fairing"><b>YOSHA</b></div>
+        <div className="bike-wheel bike-wheel-one"/><div className="bike-wheel bike-wheel-two"/>
+        <div className="bike-light"/><div className="bike-box">YOSHA<span>.</span></div>
       </div></div>}
       <div className="intro-bottom-glow"/>
     </section>}
