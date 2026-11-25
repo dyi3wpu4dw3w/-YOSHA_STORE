@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag } from "lucide-react";
+import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag, X, Home as HomeIcon, UserRound, Package, MapPin, Wallet, LogIn, Store, Headset } from "lucide-react";
 
 const categories=[
   {name:"ملابس رجالية",slug:"mens-fashion",image:"https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=900&q=80",desc:"إطلالات رجالية يومية ورسمية"},
@@ -55,9 +55,24 @@ export default function Home(){
       <header className="container site-header">
         <Link href="/" className="site-logo"><img src="/ys-logo.svg" alt="YS" width="36" height="36"/> <span className="site-wordmark">YOSHA</span></Link>
         <nav className="desktop-nav"><a href="#categories">التصنيفات</a><a href="#products">اكتشف المنتجات</a><Link href="/seller">افتح متجرك</Link></nav>
-        <div className="header-actions"><Link className="btn btn-outline" href="/auth">دخول / حساب جديد</Link><button className="btn menu-button" aria-label="القائمة" onClick={()=>setMenu(!menu)}><Menu size={18}/></button></div>
+        <div className="header-actions"><Link className="btn btn-outline" href="/auth">دخول / حساب جديد</Link><button className="btn menu-button sidebar-toggle" aria-label="فتح القائمة الجانبية" aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X size={19}/>:<Menu size={19}/>}<span>القائمة</span></button></div>
       </header>
-      {menu&&<div className="container card mobile-menu"><Link href="/seller">مركز البائعين</Link><Link href="/account">حسابي</Link><Link href="/admin">الإدارة</Link></div>}
+      {menu&&<><button className="sidebar-backdrop" aria-label="إغلاق القائمة" onClick={()=>setMenu(false)}/><aside className="account-drawer" aria-label="القائمة الرئيسية">
+  <div className="drawer-head"><Link href="/" className="site-logo" onClick={()=>setMenu(false)}><img src="/ys-logo.svg" alt="YS" width="34" height="34"/><span className="site-wordmark">YOSHA</span></Link><button className="drawer-close" onClick={()=>setMenu(false)} aria-label="إغلاق"><X size={20}/></button></div>
+  <Link className="drawer-home" href="/" onClick={()=>setMenu(false)}><HomeIcon size={18}/> الرئيسية <span>←</span></Link>
+  <div className="drawer-label">حسابك وخدماتك</div>
+  <Link className="drawer-link drawer-feature" href="/account" onClick={()=>setMenu(false)}><UserRound size={18}/> مركز العميل</Link>
+  <Link className="drawer-link" href="/account?tab=orders" onClick={()=>setMenu(false)}><Package size={18}/> طلباتي</Link>
+  <Link className="drawer-link" href="/account?tab=favorites" onClick={()=>setMenu(false)}><Heart size={18}/> المفضلة</Link>
+  <Link className="drawer-link" href="/account?tab=addresses" onClick={()=>setMenu(false)}><MapPin size={18}/> عناويني</Link>
+  <Link className="drawer-link" href="/account?tab=wallet" onClick={()=>setMenu(false)}><Wallet size={18}/> المحفظة</Link>
+  <div className="drawer-label">التسوق والمتاجر</div>
+  <a className="drawer-link" href="#categories" onClick={()=>setMenu(false)}><ShoppingBag size={18}/> التصنيفات</a>
+  <a className="drawer-link" href="#products" onClick={()=>setMenu(false)}><Sparkles size={18}/> اكتشف المنتجات</a>
+  <Link className="drawer-link" href="/seller" onClick={()=>setMenu(false)}><Store size={18}/> افتح متجرك</Link>
+  <Link className="drawer-link" href="/support" onClick={()=>setMenu(false)}><Headset size={18}/> الدعم والمساعدة</Link>
+  <div className="drawer-footer"><Link href="/auth" className="btn drawer-login" onClick={()=>setMenu(false)}><LogIn size={17}/> تسجيل الدخول</Link></div>
+</aside></>}
       <section className="container hero" style={{padding:"clamp(30px,7vw,78px)",display:"grid",gridTemplateColumns:"1.15fr .85fr",gap:28,alignItems:"center",marginTop:12}}>
         <div><span className="pill"><Sparkles size={13} style={{display:"inline",verticalAlign:"middle"}}/> تجربة تسوق جديدة</span>
           <h1 style={{fontFamily:"Arial Black, Arial, sans-serif",fontSize:"clamp(38px,6vw,68px)",lineHeight:1.35,margin:"20px 0",fontWeight:900,letterSpacing:"-1.5px",color:"#ffffff",textShadow:"0 2px 10px rgba(13,55,33,.38)"}}>كل ما تبحث عنه<br/><span style={{color:"#153f2b",textShadow:"0 1px 5px rgba(13,55,33,.12)"}}>في مكان واحد.</span></h1>
