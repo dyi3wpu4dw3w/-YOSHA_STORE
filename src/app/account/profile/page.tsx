@@ -5,7 +5,7 @@ import {createClient} from "@/lib/supabase/client";
 import {ArrowRight,Camera,Save,Store,UserRound} from "lucide-react";
 
 export default function ProfilePage(){
-  const [client,setClient]=useState<any>(null);
+  const [client,setClient]=useState<ReturnType<typeof createClient>>(null);
   const [userId,setUserId]=useState("");
   const [role,setRole]=useState("customer");
   const [name,setName]=useState("");
