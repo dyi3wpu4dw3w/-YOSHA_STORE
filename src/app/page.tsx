@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Search, ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag } from "lucide-react";
+import { ShieldCheck, Truck, Heart, ArrowLeft, Menu, Sparkles, ShoppingBag } from "lucide-react";
 
 const categories=[
   {name:"ملابس رجالية",slug:"mens-fashion",image:"https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=900&q=80",desc:"إطلالات رجالية يومية ورسمية"},
@@ -19,7 +19,6 @@ const categories=[
 ];
 
 export default function Home(){
-  const [q,setQ]=useState("");
   const [menu,setMenu]=useState(false);
   const [entered,setEntered]=useState(false);
   const [delivery,setDelivery]=useState(false);
@@ -70,6 +69,16 @@ export default function Home(){
       </section>
       <section className="container section-block" id="categories"><div className="section-heading"><div><div className="muted">تصفح أقسام السوق</div><h2>تسوّق حسب الفئة</h2><p className="muted">اختَر القسم وشاهد المنتجات والمتاجر التي تبيع ما تبحث عنه.</p></div></div>
         <div className="category-grid category-photo-grid">{categories.map(c=><Link key={c.slug} href={"/market?category="+c.slug} className="card category-photo-card"><div className="category-photo"><img src={c.image} alt={c.name} loading="lazy"/></div><div className="category-photo-copy"><b>{c.name}</b><span>{c.desc}</span><small>استكشف القسم <ArrowLeft size={14}/></small></div></Link>)}</div>
+      </section>
+      <section className="container section-block" id="products" aria-labelledby="products-title">
+        <div className="card" style={{padding:"clamp(24px,5vw,42px)",display:"flex",alignItems:"center",justifyContent:"space-between",gap:24,flexWrap:"wrap",background:"linear-gradient(120deg,#f0faf2,#ffffff 68%)"}}>
+          <div style={{maxWidth:620}}>
+            <div className="muted">سوق يوشا في انتظارك</div>
+            <h2 id="products-title" style={{fontSize:"clamp(25px,4vw,36px)",margin:"9px 0",fontWeight:900}}>اكتشف المنتجات التي تناسبك</h2>
+            <p className="muted" style={{lineHeight:1.9,margin:0}}>تصفح المنتجات المتاحة من المتاجر المعتمدة، قارن الأسعار، وأضف اختياراتك إلى سلة التسوق بسهولة.</p>
+          </div>
+          <Link href="/market" className="btn">تصفح كل المنتجات <ArrowLeft size={17}/></Link>
+        </div>
       </section>
       <section className="container seller-invite"><div><div className="muted">لديك منتجات تريد بيعها؟</div><h2>اعرض منتجاتك في سوق يوشا</h2><p className="muted">افتح متجرك، أضف صور منتجاتك، واستقبل طلبات العملاء من مكان واحد.</p></div><Link href="/seller" className="btn">ابدأ البيع الآن <ArrowLeft size={17}/></Link></section>
       <footer className="site-footer"><div className="container footer-inner"><div><b className="footer-brand">YOSHA STORE</b><p>سوق واحد. فرص بلا حدود.</p></div><div className="footer-links"><Link href="/seller">مركز البائعين</Link><Link href="/auth">حسابي</Link><Link href="/support">الدعم</Link></div><small>© {new Date().getFullYear()} YOSHA</small></div></footer>
