@@ -26,6 +26,7 @@ export default function Home(){
   const [delivery,setDelivery]=useState(false);
   const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string}|null>(null);
   useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
+  useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
   useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer"});});return()=>{live=false}},[]);
 
   return <>
