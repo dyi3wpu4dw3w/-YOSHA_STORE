@@ -28,7 +28,7 @@ export default function Account(){
     let active=true;
     const supabase=createClient();
     if(!supabase){setError("تعذر الاتصال بخدمة الحساب حالياً.");setLoading(false);return;}
-    supabase.auth.getUser().then(({data,error})=>{
+    supabase.auth.getUser().then(async ({data,error})=>{
       if(!active)return;
       if(error||!data.user){window.location.href="/auth";return;}
       const {data:profile}=await supabase.from("profiles").select("role").eq("id",data.user.id).maybeSingle();
