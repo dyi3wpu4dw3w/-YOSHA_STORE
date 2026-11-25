@@ -187,7 +187,7 @@ const translations: Record<string, string> = {
   "لا يوجد متجر مرتبط بهذا الحساب بعد.": "No store is linked to this account yet."
 };
 
-const reverse = Object.fromEntries(Object.entries(translations).map(([ar, en]) => [en, ar]));
+const reverse = Object.fromEntries(Object.entries(translations).filter(([ar]) => ar !== "يوشا").map(([ar, en]) => [en, ar]));
 
 function translate(value: string, language: Language) {
   const source = language === "en" ? translations : reverse;
@@ -206,6 +206,12 @@ export default function LanguageExperience() {
     const saved = localStorage.getItem("yosha-language");
     const initial: Language = saved === "en" ? "en" : "ar";
     setLanguage(initial);
+    const handleLanguageChange = (event: Event) => {
+      const next = (event as CustomEvent<Language>).detail;
+      if (next === "ar" || next === "en") setLanguage(next);
+    };
+    window.addEventListener("yosha-language-change", handleLanguageChange);
+    return () => window.removeEventListener("yosha-language-change", handleLanguageChange);
   }, []);
 
   useEffect(() => {
@@ -255,23 +261,33 @@ export default function LanguageExperience() {
     return () => observer.disconnect();
   }, [language]);
 
+  return null;
+}
+
+export function LanguagePicker() {
+  const [language, setLanguage] = useState<Language>("ar");
+  useEffect(() => {
+    const saved = localStorage.getItem("yosha-language");
+    setLanguage(saved === "en" ? "en" : "ar");
+  }, []);
   function choose(next: Language) {
     localStorage.setItem("yosha-language", next);
     setLanguage(next);
+    window.dispatchEvent(new CustomEvent("yosha-language-change", { detail: next }));
   }
-
   return (
-    <div className="yosha-language-switch" role="group" aria-label="Choose language">
-      <button type="button" onClick={() => choose("ar")} aria-pressed={language === "ar"} className={language === "ar" ? "active" : ""}>العربية</button>
-      <span aria-hidden="true">|</span>
-      <button type="button" onClick={() => choose("en")} aria-pressed={language === "en"} className={language === "en" ? "active" : ""}>English</button>
+    <div className="drawer-language" role="group" aria-label="Choose language">
+      <span className="drawer-language-title">اللغة / Language</span>
+      <div className="drawer-language-options">
+        <button type="button" onClick={() => choose("ar")} aria-pressed={language === "ar"} className={language === "ar" ? "active" : ""}>العربية</button>
+        <button type="button" onClick={() => choose("en")} aria-pressed={language === "en"} className={language === "en" ? "active" : ""}>English</button>
+      </div>
       <style jsx>{`
-        .yosha-language-switch{position:fixed;z-index:2000;top:16px;inset-inline-end:18px;display:flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #d8e9dc;border-radius:30px;background:rgba(255,255,255,.94);box-shadow:0 6px 22px #153f2b18;color:#496451;font:600 12px Arial,sans-serif;backdrop-filter:blur(12px)}
-        .yosha-language-switch button{border:0;background:transparent;color:#587260;padding:5px 7px;border-radius:18px;cursor:pointer;font:inherit}
-        .yosha-language-switch button.active{background:#e7f5eb;color:#17683c;font-weight:800}
-        @media(max-width:600px){.yosha-language-switch{top:10px;inset-inline-end:10px;padding:5px 7px;font-size:11px}.yosha-language-switch button{padding:5px}}
-        :global(html[dir="ltr"] body){direction:ltr}
-        :global(html[dir="rtl"] body){direction:rtl}
+        .drawer-language{margin:12px 0 6px;padding:13px 12px;border:1px solid #e1ece4;border-radius:14px;background:#f8fbf8}
+        .drawer-language-title{display:block;margin-bottom:9px;color:#607568;font-size:12px;font-weight:800}
+        .drawer-language-options{display:flex;gap:8px}
+        .drawer-language button{flex:1;border:1px solid #dce9df;background:#fff;color:#476251;padding:9px;border-radius:10px;cursor:pointer;font:600 13px Arial,sans-serif}
+        .drawer-language button.active{background:#e4f3e8;border-color:#a8d2b4;color:#17683c;font-weight:800}
       `}</style>
     </div>
   );
