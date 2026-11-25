@@ -16,7 +16,7 @@ export default function Index() {
   const handleNavigation = useCallback((request: WebViewNavigation) => {
     let target: URL;
     try { target = new URL(request.url); } catch { return false; }
-    if (target.protocol === "about:" || target.host === SITE_HOST || target.host.endsWith(".onrender.com")) return true;
+    if (target.protocol === "about:" || target.host === SITE_HOST || target.host.endsWith(".onrender.com") || target.host === "xcgxenmvkabvcsikcasy.supabase.co") return true;
     if (["tel:", "mailto:", "whatsapp:"].includes(target.protocol)) {
       Linking.openURL(request.url).catch(() => undefined);
       return false;
@@ -62,7 +62,6 @@ export default function Index() {
         }}
         onNavigationStateChange={(state) => setCanGoBack(state.canGoBack)}
         onShouldStartLoadWithRequest={handleNavigation}
-        renderLoading={() => null}
         pullToRefreshEnabled={Platform.OS === "android"}
         cacheEnabled
         applicationNameForUserAgent="YOSHA-STORE-Android"
