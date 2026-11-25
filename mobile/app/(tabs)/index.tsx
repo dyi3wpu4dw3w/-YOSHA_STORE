@@ -1,6 +1,7 @@
 import {useCallback,useEffect,useMemo,useState} from "react";
 import {ActivityIndicator,FlatList,Image,RefreshControl,ScrollView,StyleSheet,Text,TextInput,TouchableOpacity,View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
+import {router} from "expo-router";
 import {supabase} from "../../lib/supabase";
 import {Yosha} from "../../theme";
 import Brand, { BrandMark } from "../../components/Brand";
@@ -18,7 +19,7 @@ export default function HomeScreen(){
  return <FlatList style={st.page} contentContainerStyle={st.content} keyboardShouldPersistTaps="handled"
   refreshControl={<RefreshControl refreshing={loading} onRefresh={()=>{setLoading(true);load();}} tintColor={Yosha.colors.primary}/>}
   ListHeaderComponent={<View>
-   <View style={st.top}><Brand compact/><TouchableOpacity style={st.bell}><Ionicons name="notifications-outline" size={21} color={Yosha.colors.forest}/></TouchableOpacity></View>
+   <View style={st.top}><Brand compact/><TouchableOpacity style={st.bell} onPress={()=>router.push("/cart")}><Ionicons name="cart-outline" size={21} color={Yosha.colors.forest}/></TouchableOpacity></View>
    <View style={st.hero}><View style={st.heroGlow}/><Text style={st.eyebrow}>YOUR WORLD, YOUR MARKET</Text><Text style={st.heroTitle}>كل ما تحبّه،{ "\n"}في مكان واحد.</Text><Text style={st.heroCopy}>اكتشف منتجات مميزة من متاجر YOSHA المتنوعة.</Text><View style={st.heroPill}><Ionicons name="shield-checkmark" color="#D8F7E1" size={14}/><Text style={st.heroPillText}>تجربة تسوّق موثوقة وسهلة</Text></View></View>
    <View style={st.search}><Ionicons name="search" size={19} color={Yosha.colors.muted}/><TextInput value={search} onChangeText={setSearch} placeholder="ابحث عن منتج..." placeholderTextColor="#8AA092" style={st.searchInput}/>{search.length>0?<TouchableOpacity onPress={()=>setSearch("")}><Ionicons name="close-circle" size={18} color={Yosha.colors.muted}/></TouchableOpacity>:null}</View>
    <View style={st.sectionHead}><Text style={st.sectionTitle}>متاجر تستحق الاكتشاف</Text><Text style={st.sectionHint}>تسوّق من متاجرك المفضلة</Text></View>
@@ -28,7 +29,7 @@ export default function HomeScreen(){
    {loading&&products.length===0?<ActivityIndicator color={Yosha.colors.primary} style={{margin:24}}/>:null}
   </View>}
   data={visible} numColumns={2} columnWrapperStyle={{gap:12}} keyExtractor={x=>x.id}
-  renderItem={({item})=><View style={st.product}>{item.image_urls?.[0]?<Image source={{uri:item.image_urls[0]}} style={st.photo} resizeMode="cover"/>:<View style={[st.photo,st.placeholder]}><BrandMark size={52}/></View>}<View style={st.productInfo}><Text style={st.productName} numberOfLines={2}>{item.name}</Text><Text style={st.price}>{Number(item.price).toLocaleString("en-US")} <Text style={st.currency}>{item.currency}</Text></Text><View style={st.productFoot}><Text style={st.productTag}>متوفر الآن</Text><Ionicons name="arrow-back-circle" size={23} color={Yosha.colors.primary}/></View></View></View>}
+  renderItem={({item})=><TouchableOpacity activeOpacity={0.86} onPress={()=>router.push("/product/"+item.id)} style={st.product}>{item.image_urls?.[0]?<Image source={{uri:item.image_urls[0]}} style={st.photo} resizeMode="cover"/>:<View style={[st.photo,st.placeholder]}><BrandMark size={52}/></View>}<View style={st.productInfo}><Text style={st.productName} numberOfLines={2}>{item.name}</Text><Text style={st.price}>{Number(item.price).toLocaleString("en-US")} <Text style={st.currency}>{item.currency}</Text></Text><View style={st.productFoot}><Text style={st.productTag}>متوفر الآن</Text><Ionicons name="arrow-back-circle" size={23} color={Yosha.colors.primary}/></View></View></View>}
   ListEmptyComponent={!loading&&!error?<Text style={st.empty}>لا توجد منتجات مطابقة حالياً.</Text>:null}
   ListFooterComponent={<View style={st.footerBanner}><View style={{flex:1}}><Text style={st.footerTitle}>عندك متجر؟</Text><Text style={st.footerCopy}>انضم إلى مجتمع تجار YOSHA وابدأ عرض منتجاتك.</Text></View><Ionicons name="storefront" size={35} color="#B7EAC7"/></View>}
  />;
