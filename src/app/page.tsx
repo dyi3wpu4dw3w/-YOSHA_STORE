@@ -24,12 +24,12 @@ export default function Home(){
   const [menu,setMenu]=useState(false);
   const [entered,setEntered]=useState(false);
   const [delivery,setDelivery]=useState(false);
-  const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string;storeSlug?:string;storeName?:string}|null>(null);
+  const [account,setAccount]=useState<{name:string;email:string;avatar:string;role:string;storeSlug?:string;storeName?:string;storeStatus?:string}|null>(null);
   const [shareMessage,setShareMessage]=useState("");
   useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
   useEffect(()=>{if(sessionStorage.getItem("yosha_intro_completed")==="1")setEntered(true);},[]);
-  useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(!live)return;let ownedStore:{slug:string;name:string}|null=null;if(p?.role==="seller"){const {data:st}=await s.from("stores").select("slug,name").eq("owner_id",user.id).eq("status","approved").maybeSingle();if(st)ownedStore=st;}if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer",storeSlug:ownedStore?.slug,storeName:ownedStore?.name});});return()=>{live=false}},[]);
-  const storeUrl=account?.storeSlug&&typeof window!=="undefined"?`${window.location.origin}/store/${encodeURIComponent(account.storeSlug)}`:"";
+  useEffect(()=>{let live=true;const s=createClient();if(!s)return;s.auth.getUser().then(async({data:{user}})=>{if(!live||!user)return;const {data:p}=await s.from("profiles").select("full_name,role,avatar_url").eq("id",user.id).maybeSingle();if(!live)return;const {data:ownedStore}=await s.from("stores").select("slug,name,status").eq("owner_id",user.id).maybeSingle();if(live)setAccount({name:p?.full_name||user.user_metadata?.full_name||"حسابي",email:user.email||"",avatar:p?.avatar_url||"",role:p?.role||"customer",storeSlug:ownedStore?.slug,storeName:ownedStore?.name,storeStatus:ownedStore?.status});});return()=>{live=false}},[]);
+  const storeUrl=account?.storeSlug&&account.storeStatus==="approved"&&typeof window!=="undefined"?`${window.location.origin}/store/${encodeURIComponent(account.storeSlug)}`:"";
   async function copyStoreLink(){if(!storeUrl)return;try{await navigator.clipboard.writeText(storeUrl);setShareMessage("تم نسخ رابط متجرك.");}catch{setShareMessage("تعذر النسخ تلقائياً. انسخ الرابط: "+storeUrl);}}
   async function shareStore(){if(!storeUrl)return;const shareData={title:account?.storeName||"متجري على YOSHA",text:`تفضل بزيارة ${account?.storeName||"متجري"} على YOSHA`,url:storeUrl};if(navigator.share){try{await navigator.share(shareData);setShareMessage("تم فتح خيارات المشاركة.");}catch(error){if(error instanceof Error&&error.name!=="AbortError")setShareMessage("تعذر فتح المشاركة.");}}else{await copyStoreLink();}}
 
@@ -76,12 +76,14 @@ export default function Home(){
   </Link>}
   {account?.storeSlug&&<section style={{padding:"10px 12px 14px",margin:"-2px 0 14px",borderRadius:16,background:"#f1faf3",border:"1px solid #dceee0"}}>
     <div style={{display:"flex",alignItems:"center",gap:9,fontWeight:800,color:"#176b3e",marginBottom:10}}><Share2 size={18}/> مشاركة المتجر</div>
-    <p style={{fontSize:12,color:"#64756a",margin:"0 0 10px"}}>{account.storeName||"متجرك"} · شارك رابط متجرك مع العملاء</p>
-    <button type="button" className="drawer-link" style={{width:"100%",border:0,background:"white",cursor:"pointer",marginBottom:6}} onClick={copyStoreLink}><Copy size={17}/> نسخ رابط المتجر</button>
-    <a className="drawer-link" style={{background:"white",marginBottom:6}} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(storeUrl)}`} target="_blank" rel="noopener noreferrer"><Facebook size={17}/> مشاركة على فيسبوك</a>
-    <a className="drawer-link" style={{background:"white",marginBottom:6}} href={`https://wa.me/?text=${encodeURIComponent((account.storeName||"متجري")+" على YOSHA: "+storeUrl)}`} target="_blank" rel="noopener noreferrer"><MessageCircle size={17}/> مشاركة على واتساب</a>
-    <button type="button" className="drawer-link" style={{width:"100%",border:0,background:"white",cursor:"pointer"}} onClick={shareStore}><Share2 size={17}/> تطبيقات أخرى</button>
-    {shareMessage&&<p role="status" style={{fontSize:11,color:"#176b3e",margin:"9px 0 0",overflowWrap:"anywhere"}}>{shareMessage}</p>}
+    <p style={{fontSize:12,color:"#64756a",margin:"0 0 10px"}}>{account.storeName||"متجرك"}</p>
+    {account.storeStatus==="approved"?<>
+      <button type="button" className="drawer-link" style={{width:"100%",border:0,background:"white",cursor:"pointer",marginBottom:6}} onClick={copyStoreLink}><Copy size={17}/> نسخ رابط المتجر</button>
+      <a className="drawer-link" style={{background:"white",marginBottom:6}} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(storeUrl)}`} target="_blank" rel="noopener noreferrer"><Facebook size={17}/> مشاركة على فيسبوك</a>
+      <a className="drawer-link" style={{background:"white",marginBottom:6}} href={`https://wa.me/?text=${encodeURIComponent((account.storeName||"متجري")+" على YOSHA: "+storeUrl)}`} target="_blank" rel="noopener noreferrer"><MessageCircle size={17}/> مشاركة على واتساب</a>
+      <button type="button" className="drawer-link" style={{width:"100%",border:0,background:"white",cursor:"pointer"}} onClick={shareStore}><Share2 size={17}/> تطبيقات أخرى</button>
+      {shareMessage&&<p role="status" style={{fontSize:11,color:"#176b3e",margin:"9px 0 0",overflowWrap:"anywhere"}}>{shareMessage}</p>}
+    </>:<p style={{fontSize:12,color:"#9a6b19",margin:0}}>متجرك قيد المراجعة، وستظهر خيارات المشاركة بعد اعتماده.</p>}
   </section>}
   <div className="drawer-label">حسابك وخدماتك</div>
   <Link className="drawer-link drawer-feature" href={account?.role==="seller"?"/seller/dashboard":"/account"} onClick={()=>setMenu(false)}>{account?.role==="seller"?<Store size={18}/>:<UserRound size={18}/>} {account?.role==="seller"?"لوحة التاجر":"مركز العميل"}</Link>
