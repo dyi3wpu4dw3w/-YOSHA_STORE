@@ -45,6 +45,21 @@ jobs:
         run: npx tsc --noEmit
       - name: Generate Android native project
         run: npx expo prebuild --platform android --no-install --clean
+      - name: Diagnose Expo Android module metadata
+        run: |
+          npx expo-modules-autolinking resolve --platform android --json > /tmp/expo-modules.json
+          node - <<'NODE'
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('/tmp/expo-modules.json', 'utf8'));
+          const modules = data.modules || data;
+          for (const [i, module] of modules.entries()) {
+            for (const project of module.projects || []) {
+              if (project.publication) {
+                console.log(JSON.stringify({ index: i, module: module.packageName || module.name, project: project.name, publication: project.publication }));
+              }
+            }
+          }
+          NODE
       - name: Build debug APK
         run: |
           cd android
