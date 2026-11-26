@@ -83,4 +83,5 @@ const extraTranslations:Record<string,string>={
   "تم التسليم": "Delivered",
   "ملغي": "Cancelled"
 };
-const productTranslations:Record<string,string>={"المنتج غير متاح حالياً":"Product is currently unavailable","العودة للسوق":"Back to market","العودة":"Back","أضف إلى السلة":"Add to cart","متوفر":"In stock","نفد المخزون":"Out of stock","متجر يوشا":"YOSHA Store","قطعة":"items","منتج من متاجر YOSHA المعتمدة.":"A product from approved YOSHA stores."};\nexport function tx(value:string,isArabic:boolean){return isArabic?value:(extraTranslations[value]||productTranslations[value]||value);}
+const productTranslations:Record<string,string>={"المنتج غير متاح حالياً":"Product is currently unavailable","العودة للسوق":"Back to market","العودة":"Back","أضف إلى السلة":"Add to cart","متوفر":"In stock","نفد المخزون":"Out of stock","متجر يوشا":"YOSHA Store","قطعة":"items","منتج من متاجر YOSHA المعتمدة.":"A product from approved YOSHA stores."};
+export function tx(value:string,isArabic:boolean){return isArabic?value:(extraTranslations[value]||productTranslations[value]||value);}
