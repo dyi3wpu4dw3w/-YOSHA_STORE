@@ -40,6 +40,8 @@ jobs:
           java-version: "17"
       - name: Install dependencies
         run: npm install
+      - name: Generate Android launcher icon PNG
+        run: npx --yes sharp-cli@4.2.0 -i assets/yosha-app-icon.svg -o assets/yosha-app-icon.png resize 1024 1024
       - name: Normalize Expo Font Android publication metadata
         run: |
           node <<'NODE'
