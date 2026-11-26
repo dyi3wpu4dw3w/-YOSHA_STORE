@@ -1,5 +1,5 @@
 import {useCallback,useEffect,useMemo,useState} from "react";
-import {ActivityIndicator,FlatList,Image,Modal,RefreshControl,ScrollView,StyleSheet,Text,TextInput,TouchableOpacity,View,useWindowDimensions} from "react-native";
+import {ActivityIndicator,FlatList,Image,Linking,Modal,RefreshControl,ScrollView,StyleSheet,Text,TextInput,TouchableOpacity,View,useWindowDimensions} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {router} from "expo-router";
 import {supabase} from "../../lib/supabase";
