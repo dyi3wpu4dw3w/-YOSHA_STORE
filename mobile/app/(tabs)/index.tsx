@@ -5,7 +5,7 @@ import {router} from "expo-router";
 import {supabase} from "../../lib/supabase";
 import {Yosha} from "../../theme";
 import Brand, { BrandMark } from "../../components/Brand";
-type Product={id:string;name:string;price:number;currency:string;image_urls:string[];description:string|null};
+type Product={id:string;name:string;category_id:string|null;price:number;currency:string;image_urls:string[];description:string|null};
 type Store={id:string;name:string;slug:string};
 type MarketCategory={name:string;slug:string;desc:string;image:string;icon:keyof typeof Ionicons.glyphMap};
 const marketCategories:MarketCategory[]=[
@@ -23,12 +23,14 @@ const marketCategories:MarketCategory[]=[
 {name:"الكتب والمستلزمات",slug:"books-stationery",desc:"كتب وأدوات مكتبية ودراسية",image:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80",icon:"book-outline"}
 ];
 export default function HomeScreen(){
- const [products,setProducts]=useState<Product[]>([]),[stores,setStores]=useState<Store[]>([]);
+ const [products,setProducts]=useState<Product[]>([]),[stores,setStores]=useState<Store[]>([]),[categoryImages,setCategoryImages]=useState<Record<string,string>>({});
  const [loading,setLoading]=useState(true),[error,setError]=useState(""),[search,setSearch]=useState("");
- const load=useCallback(async()=>{setError("");const [p,s]=await Promise.all([
-  supabase.from("products").select("id,name,price,currency,image_urls,description").eq("active",true).order("created_at",{ascending:false}).limit(40),
-  supabase.from("stores").select("id,name,slug").eq("status","approved").limit(16)
- ]);if(p.error)setError(p.error.message);else setProducts((p.data||[]) as Product[]);if(!s.error)setStores((s.data||[]) as Store[]);setLoading(false);},[]);
+ const load=useCallback(async()=>{setError("");const [p,s,c,photos]=await Promise.all([
+  supabase.from("products").select("id,name,category_id,price,currency,image_urls,description").eq("active",true).order("created_at",{ascending:false}).limit(40),
+  supabase.from("stores").select("id,name,slug").eq("status","approved").limit(16),
+  supabase.from("categories").select("id,slug").eq("active",true),
+  supabase.from("products").select("category_id,image_urls").eq("active",true).order("created_at",{ascending:false}).limit(1000)
+ ]);if(p.error)setError(p.error.message);else setProducts((p.data||[]) as Product[]);if(!s.error)setStores((s.data||[]) as Store[]);if(!c.error&&!photos.error){const slugById=new Map<string,string>((c.data||[]).map((x:{id:string;slug:string})=>[x.id,x.slug]));const images:Record<string,string>={};for(const item of (photos.data||[]) as {category_id:string|null;image_urls:string[]|null}[]){const slug=item.category_id?slugById.get(item.category_id):undefined;const url=item.image_urls?.find(Boolean);if(slug&&url&&!images[slug])images[slug]=url;}setCategoryImages(images);}setLoading(false);},[]);
  useEffect(()=>{load();},[load]);
  const visible=useMemo(()=>products.filter(p=>p.name.toLowerCase().includes(search.trim().toLowerCase())),[products,search]);
  return <FlatList style={st.page} contentContainerStyle={st.content} keyboardShouldPersistTaps="handled"
@@ -38,7 +40,7 @@ export default function HomeScreen(){
    <View style={st.hero}><View style={st.heroGlow}/><Text style={st.eyebrow}>YOUR WORLD, YOUR MARKET</Text><Text style={st.heroTitle}>كل ما تحبّه،{ "\n"}في مكان واحد.</Text><Text style={st.heroCopy}>اكتشف منتجات مميزة من متاجر YOSHA المتنوعة.</Text><View style={st.heroPill}><Ionicons name="shield-checkmark" color="#D8F7E1" size={14}/><Text style={st.heroPillText}>تجربة تسوّق موثوقة وسهلة</Text></View></View>
    <View style={st.search}><Ionicons name="search" size={19} color={Yosha.colors.muted}/><TextInput value={search} onChangeText={setSearch} placeholder="ابحث عن منتج..." placeholderTextColor="#8AA092" style={st.searchInput}/>{search.length>0?<TouchableOpacity onPress={()=>setSearch("")}><Ionicons name="close-circle" size={18} color={Yosha.colors.muted}/></TouchableOpacity>:null}</View>
    <View style={st.categoryIntro}><View><Text style={st.categoryKicker}>تصفح أقسام السوق</Text><Text style={st.sectionTitle}>تسوّق حسب الفئة</Text><Text style={st.categorySub}>اختَر القسم وشاهد المنتجات والمتاجر التي تبيع ما تبحث عنه.</Text></View><View style={st.categoryBadge}><Ionicons name="grid-outline" size={18} color={Yosha.colors.primary}/></View></View>
-   <View style={st.categoryGrid}>{marketCategories.map((cat)=><TouchableOpacity key={cat.slug} activeOpacity={0.88} style={st.categoryCard} onPress={()=>router.push({pathname:"/market",params:{category:cat.slug}})}><Image source={{uri:cat.image}} style={st.categoryImage} resizeMode="cover"/><View style={st.categoryShade}/><View style={st.categoryIcon}><Ionicons name={cat.icon} size={17} color="#14532D"/></View><View style={st.categoryCopy}><Text style={st.categoryName}>{cat.name}</Text><Text style={st.categoryDesc} numberOfLines={2}>{cat.desc}</Text><View style={st.categoryAction}><Text style={st.categoryActionText}>استكشف القسم</Text><Ionicons name="arrow-back" size={13} color="#D9F8E3"/></View></View></TouchableOpacity>)}</View>
+   <View style={st.categoryGrid}>{marketCategories.map((cat)=><TouchableOpacity key={cat.slug} activeOpacity={0.88} style={st.categoryCard} onPress={()=>router.push({pathname:"/market",params:{category:cat.slug}})}><Image source={{uri:categoryImages[cat.slug]||cat.image}} style={st.categoryImage} resizeMode="cover"/><View style={st.categoryShade}/><View style={st.categoryIcon}><Ionicons name={cat.icon} size={17} color="#14532D"/></View><View style={st.categoryCopy}><Text style={st.categoryName}>{cat.name}</Text><Text style={st.categoryDesc} numberOfLines={2}>{cat.desc}</Text><View style={st.categoryAction}><Text style={st.categoryActionText}>استكشف القسم</Text><Ionicons name="arrow-back" size={13} color="#D9F8E3"/></View></View></TouchableOpacity>)}</View>
    <View style={st.sectionHead}><Text style={st.sectionTitle}>متاجر تستحق الاكتشاف</Text><Text style={st.sectionHint}>تسوّق من متاجرك المفضلة</Text></View>
    <FlatList horizontal showsHorizontalScrollIndicator={false} data={stores} keyExtractor={x=>x.id} contentContainerStyle={{gap:10,paddingBottom:6}} renderItem={({item})=><View style={st.store}><View style={st.storeMark}><Text style={st.storeInitial}>{item.name.slice(0,1)}</Text></View><Text style={st.storeName} numberOfLines={1}>{item.name}</Text><Text style={st.storeCaption}>متجر معتمد</Text></View>} ListEmptyComponent={<Text style={st.empty}>ستظهر المتاجر المعتمدة هنا.</Text>}/>
    <View style={st.sectionHead}><View><Text style={st.sectionTitle}>{search?"نتائج البحث":"وصل حديثاً"}</Text><Text style={st.sectionHint}>اختيارات جديدة من سوق YOSHA</Text></View><View style={st.countPill}><Text style={st.countText}>{visible.length} منتج</Text></View></View>
