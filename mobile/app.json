@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "YOSHA STORE",
+    "slug": "yosha-store",
+    "scheme": "yoshastore",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "icon": "./assets/yosha-app-icon.png",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yosha.store"
+    },
+    "android": {
+      "package": "com.yosha.store",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/yosha-app-icon.png",
+        "backgroundColor": "#8DE7B9"
+      }
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

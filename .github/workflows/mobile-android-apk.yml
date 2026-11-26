@@ -1,0 +1,103 @@
+name: Build YOSHA STORE Android APK
+
+on:
+  push:
+    branches:
+      - feature/yosha-mobile-app
+    paths:
+      - "mobile/**"
+      - ".github/workflows/mobile-android-apk.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: yosha-mobile-android-v2-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+
+jobs:
+  android-debug-apk:
+    name: Validate and build installable Android debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+      EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install dependencies
+        run: npm install
+      - name: Generate Android launcher icon PNG
+        run: npx --yes sharp-cli@4.2.0 -i assets/yosha-app-icon.svg -o assets/yosha-app-icon.png resize 1024 1024
+      - name: Normalize Expo Font Android publication metadata
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const fontDir = path.dirname(require.resolve('expo-font/package.json'));
+          const configPath = path.join(fontDir, 'expo-module.config.json');
+          const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+          const version = require('expo-font/package.json').version;
+          config.android = config.android || {};
+          config.android.publication = {
+            ...(config.android.publication || {}),
+            id: 'expo.modules.font',
+            group: 'host.exp.exponent',
+            version,
+            repository: 'local-maven-repo'
+          };
+          fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+          console.log('Expo Font Android publication version:', version);
+          NODE
+      - name: Verify Expo dependency compatibility
+        run: npx expo install --check
+      - name: Validate Expo configuration
+        run: npx expo config --type public
+      - name: TypeScript check
+        run: npx tsc --noEmit
+      - name: Generate Android native project
+        run: npx expo prebuild --platform android --no-install --clean
+      - name: Bundle JavaScript into the Android APK
+        run: |
+          mkdir -p android/app/src/main/assets android/app/src/main/res
+          npx expo export:embed --platform android --dev false --entry-file node_modules/expo-router/entry --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+      - name: Diagnose Expo Android module metadata
+        run: |
+          npx expo-modules-autolinking resolve --platform android --json > /tmp/expo-modules.json
+          node - <<'NODE'
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('/tmp/expo-modules.json', 'utf8'));
+          const modules = data.modules || data;
+          for (const [i, module] of modules.entries()) {
+            for (const project of module.projects || []) {
+              if (project.publication) {
+                console.log(JSON.stringify({ index: i, module: module.packageName || module.name, project: project.name, publication: project.publication }));
+              }
+            }
+          }
+          NODE
+      - name: Build debug APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v5
+        with:
+          name: yosha-store-android-debug-apk
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
