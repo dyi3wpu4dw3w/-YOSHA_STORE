@@ -4,7 +4,7 @@ import {useFocusEffect,router} from "expo-router";
 import {Ionicons} from "@expo/vector-icons";
 import {supabase} from "../../lib/supabase";
 import {Yosha} from "../../theme";
-type Order={id:string;order_number:string;status:string;total:number;currency:string;created_at:string;address_snapshot:any};
+type Order={id:string;order_number:string;status:string;total:number;currency:string;created_at:string;address_snapshot:{state?:string;city?:string;area?:string}|null};
 const labels:Record<string,string>={pending:"بانتظار تأكيد الدفع",confirmed:"تم تأكيد الدفع",processing:"قيد التجهيز",shipped:"خرج للتوصيل",delivered:"تم التسليم",cancelled:"ملغي"};
 export default function OrdersScreen(){const[rows,setRows]=useState<Order[]>([]),[busy,setBusy]=useState(true),[error,setError]=useState("");
 const load=useCallback(async()=>{setBusy(true);setError("");const{data:{user}}=await supabase.auth.getUser();if(!user){setError("سجل الدخول لمتابعة طلباتك.");setBusy(false);return}const{data,error}=await supabase.from("orders").select("id,order_number,status,total,currency,created_at,address_snapshot").eq("user_id",user.id).order("created_at",{ascending:false}).limit(50);if(error)setError(error.message);else setRows((data||[]) as Order[]);setBusy(false)},[]);
