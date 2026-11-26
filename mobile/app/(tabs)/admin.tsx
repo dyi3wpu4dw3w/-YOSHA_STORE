@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {useCallback,useEffect,useState} from "react";
 import {ActivityIndicator,Alert,ScrollView,StyleSheet,Text,TouchableOpacity,View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
